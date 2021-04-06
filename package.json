@@ -1,19 +1,23 @@
 {
-  "name": "reactjs_photos",
+  "name": "redux-photo-app",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
     "@reduxjs/toolkit": "^1.5.1",
-    "@testing-library/jest-dom": "^5.11.4",
-    "@testing-library/react": "^11.1.0",
-    "@testing-library/user-event": "^12.1.10",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.3.2",
+    "@testing-library/user-event": "^7.1.2",
+    "bootstrap": "^4.4.1",
+    "formik": "^2.2.6",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
     "react-redux": "^7.2.3",
-    "react-router-dom": "^5.2.0",
-    "react-scripts": "4.0.3",
+    "react-router-dom": "^5.1.2",
+    "react-scripts": "3.4.1",
+    "react-select": "^3.1.0",
+    "reactstrap": "^8.4.1",
     "uuid": "^8.3.2",
-    "web-vitals": "^1.0.1"
+    "yup": "^0.32.9"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -22,10 +26,7 @@
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+    "extends": "react-app"
   },
   "browserslist": {
     "production": [
@@ -40,6 +41,6 @@
     ]
   },
   "devDependencies": {
-    "prettier": "2.2.1"
+    "node-sass": "^4.14.1"
   }
 }
