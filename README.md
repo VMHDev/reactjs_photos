@@ -1,2 +1,2 @@
-# reactjs_photos
-reactjs_photos
+# Ref:
+- https://github.com/paulnguyen-mn/redux-photo-app
