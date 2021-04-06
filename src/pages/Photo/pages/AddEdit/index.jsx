@@ -1,6 +1,6 @@
 import React from 'react';
 import Banner from 'components/Banner';
-import PhotoForm from 'features/Photo/components/PhotoForm';
+import PhotoForm from 'pages/Photo/components/PhotoForm';
 import './styles.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { addPhoto, updatePhoto } from 'redux/photoSlice';

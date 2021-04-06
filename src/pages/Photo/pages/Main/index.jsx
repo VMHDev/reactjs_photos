@@ -1,6 +1,6 @@
 import Banner from 'components/Banner';
 import Images from 'constants/images';
-import PhotoList from 'features/Photo/components/PhotoList';
+import PhotoList from 'pages/Photo/components/PhotoList';
 import { removePhoto } from 'redux/photoSlice';
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
