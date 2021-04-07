@@ -4,9 +4,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import ForgotPassword from './pages/ForgotPassword';
 
-Login.propTypes = {};
-
-function User(props) {
+const User = (props) => {
   const match = useRouteMatch();
   console.log({ match });
 
@@ -20,6 +18,8 @@ function User(props) {
       <Route path={`${match.url}/forgotpassword`} component={ForgotPassword} />
     </Switch>
   );
-}
+};
+
+User.propTypes = {};
 
 export default User;

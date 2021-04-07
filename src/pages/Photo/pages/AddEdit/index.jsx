@@ -7,9 +7,7 @@ import { addPhoto, updatePhoto } from 'redux/photoSlice';
 import { useHistory, useParams } from 'react-router';
 import { v4 as uuidv4 } from 'uuid';
 
-AddEditPage.propTypes = {};
-
-function AddEditPage(props) {
+const AddEditPage = (props) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const { photoId } = useParams();
@@ -65,6 +63,8 @@ function AddEditPage(props) {
       </div>
     </div>
   );
-}
+};
+
+AddEditPage.propTypes = {};
 
 export default AddEditPage;

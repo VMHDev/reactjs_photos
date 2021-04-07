@@ -7,9 +7,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import { Container } from 'reactstrap';
 
-MainPage.propTypes = {};
-
-function MainPage(props) {
+const MainPage = (props) => {
   const dispatch = useDispatch();
   const photos = useSelector((state) => state.photos);
   const history = useHistory();
@@ -45,6 +43,8 @@ function MainPage(props) {
       </Container>
     </div>
   );
-}
+};
+
+MainPage.propTypes = {};
 
 export default MainPage;

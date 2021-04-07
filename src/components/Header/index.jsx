@@ -3,31 +3,27 @@ import { NavLink } from 'react-router-dom';
 import { Col, Container, Row } from 'reactstrap';
 import './Header.scss';
 
-Header.propTypes = {};
-
-function Header() {
+const Header = () => {
   return (
-    <header className="header">
+    <header className='header'>
       <Container>
-        <Row className="justify-content-between">
-          <Col xs="auto">
+        <Row className='justify-content-between'>
+          <Col xs='auto'>
             <a
-              className="header__link header__title"
-              href="https://youtube.com/easyfrontend"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+              className='header__link header__title'
+              href='https://youtube.com/easyfrontend'
+              target='_blank'
+              rel='noopener noreferrer'>
               Easy Frontend
             </a>
           </Col>
 
-          <Col xs="auto">
+          <Col xs='auto'>
             <NavLink
               exact
-              className="header__link"
-              to="/photos"
-              activeClassName="header__link--active"
-            >
+              className='header__link'
+              to='/photos'
+              activeClassName='header__link--active'>
               Redux Project
             </NavLink>
           </Col>
@@ -35,6 +31,8 @@ function Header() {
       </Container>
     </header>
   );
-}
+};
+
+Header.propTypes = {};
 
 export default Header;

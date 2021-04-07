@@ -8,15 +8,7 @@ import SelectField from 'components/SelectField';
 import RandomPhotoField from 'components/RandomPhotoField';
 import * as Yup from 'yup';
 
-PhotoForm.propTypes = {
-  onSubmit: PropTypes.func,
-};
-
-PhotoForm.defaultProps = {
-  onSubmit: null,
-};
-
-function PhotoForm(props) {
+const PhotoForm = (props) => {
   const { initialValues, isAddMode } = props;
 
   const validationSchema = Yup.object().shape({
@@ -79,6 +71,14 @@ function PhotoForm(props) {
       }}
     </Formik>
   );
-}
+};
+
+PhotoForm.propTypes = {
+  onSubmit: PropTypes.func,
+};
+
+PhotoForm.defaultProps = {
+  onSubmit: null,
+};
 
 export default PhotoForm;
