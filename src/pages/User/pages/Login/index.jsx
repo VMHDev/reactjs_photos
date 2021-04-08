@@ -1,14 +1,18 @@
 import React from 'react';
-import { Container } from 'reactstrap';
+import LoginForm from 'pages/User/components/LoginForm';
+import './styles.scss';
 
-const Login = () => {
+const LoginPage = (props) => {
+  const initialValues = {};
   return (
-    <div>
-      <Container className='text-center'>
-        <h1>Login Pages</h1>
-      </Container>
+    <div className='login'>
+      <div className='login__form'>
+        <LoginForm initialValues={initialValues} />
+      </div>
     </div>
   );
 };
 
-export default Login;
+LoginPage.propTypes = {};
+
+export default LoginPage;

@@ -14,7 +14,7 @@ const Header = () => {
               href='https://youtube.com/easyfrontend'
               target='_blank'
               rel='noopener noreferrer'>
-              Easy Frontend
+              Photos
             </a>
           </Col>
 
@@ -22,9 +22,9 @@ const Header = () => {
             <NavLink
               exact
               className='header__link'
-              to='/photos'
+              to='/user/login'
               activeClassName='header__link--active'>
-              Redux Project
+              Login
             </NavLink>
           </Col>
         </Row>
