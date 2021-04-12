@@ -8,21 +8,24 @@ import SelectField from 'components/SelectField';
 import RandomPhotoField from 'components/RandomPhotoField';
 import * as Yup from 'yup';
 
-const PhotoForm = (props) => {
-  const { initialValues, isAddMode } = props;
-
+const LoadDataCategories = () => {
   const categories = useSelector((state) => state.categories);
-  console.log('categories', categories);
-  var categoriesOption = [];
-  for (let item of categories){
+  let categoriesOption = [];
+  for (let item of categories) {
     console.log(item);
     const itemOptions = {
       value: item.id,
-      label: item.name
-    }
+      label: item.name,
+    };
     categoriesOption.push(itemOptions);
   }
-  console.log('categoriesOption', categoriesOption);
+  return categoriesOption;
+};
+
+const PhotoForm = (props) => {
+  const { initialValues, isAddMode } = props;
+
+  const categoriesOption = LoadDataCategories();
 
   const validationSchema = Yup.object().shape({
     title: Yup.string().required('This field is required.'),
