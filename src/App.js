@@ -6,6 +6,7 @@ import NotFound from './components/NotFound';
 
 // Lazy load - Code splitting => Chỉ load components khi mà components được gọi. Cần sử dụng chung với tag Suspense
 const Photo = React.lazy(() => import('./pages/Photo'));
+const Category = React.lazy(() => import('./pages/Category'));
 const Home = React.lazy(() => import('./pages/Home'));
 const User = React.lazy(() => import('./pages/User'));
 
@@ -19,6 +20,7 @@ function App() {
           <Switch>
             <Route exact path='/' component={Home} />
             <Route path='/photos' component={Photo} />
+            <Route path='/categories' component={Category} />
             <Route path='/user' component={User} />
             <Route component={NotFound} />
           </Switch>
