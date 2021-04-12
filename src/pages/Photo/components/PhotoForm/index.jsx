@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { Button, FormGroup, Spinner } from 'reactstrap';
-import { PHOTO_CATEGORY_OPTIONS } from 'constants/global';
 import { Formik, Form, FastField } from 'formik';
 import InputField from 'components/InputField';
 import SelectField from 'components/SelectField';
@@ -10,6 +10,19 @@ import * as Yup from 'yup';
 
 const PhotoForm = (props) => {
   const { initialValues, isAddMode } = props;
+
+  const categories = useSelector((state) => state.categories);
+  console.log('categories', categories);
+  var categoriesOption = [];
+  for (let item of categories){
+    console.log(item);
+    const itemOptions = {
+      value: item.id,
+      label: item.name
+    }
+    categoriesOption.push(itemOptions);
+  }
+  console.log('categoriesOption', categoriesOption);
 
   const validationSchema = Yup.object().shape({
     title: Yup.string().required('This field is required.'),
@@ -51,7 +64,7 @@ const PhotoForm = (props) => {
               component={SelectField}
               label='Category'
               placeholder="What's your photo category?"
-              options={PHOTO_CATEGORY_OPTIONS}
+              options={categoriesOption}
             />
 
             <FastField
