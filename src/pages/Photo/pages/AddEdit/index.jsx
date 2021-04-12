@@ -29,25 +29,24 @@ const AddEditPage = (props) => {
       }
     : editedPhoto;
 
-  const handleSubmit = (values) => {
-    return new Promise((resolve) => {
+  const handleSubmit = async (values) => {
+    try {
       console.log('Form submit: ', values);
-
-      setTimeout(() => {
-        if (isAddMode) {
-          const action = addPhoto(values);
-          console.log({ action });
-          dispatch(action);
-        } else {
-          const action = updatePhoto(values);
-          console.log({ action });
-          dispatch(action);
-        }
-
-        history.push('/photos');
-        resolve(true);
-      }, 2000);
-    });
+      if (isAddMode) {
+        const action = addPhoto(values);
+        console.log({ action });
+        dispatch(action);
+      } else {
+        const action = updatePhoto(values);
+        console.log({ action });
+        dispatch(action);
+      }
+      history.push('/photos');
+      return true;
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
   };
 
   return (
