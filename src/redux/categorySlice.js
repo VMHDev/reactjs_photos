@@ -43,13 +43,13 @@ const photo = createSlice({
   initialState,
   reducers: {
     addCategory: (state, action) => {
-
+      console.log('addCategory', state, action);
     },
     removeCategory: (state, action) => {
-
+      console.log('removeCategory', state, action);
     },
     updateCategory: (state, action) => {
-
+      console.log('updateCategory', state, action);
     },
   },
 });
