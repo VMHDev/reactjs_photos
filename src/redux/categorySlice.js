@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { addToLocalStorageArray } from "utils/helper";
 
-const InitCategories = () => {
+const initCategories = () => {
   const categories = localStorage.getItem('categories');
   if (categories) {
     return JSON.parse(categories);
@@ -36,14 +37,15 @@ const InitCategories = () => {
   }
 };
 
-const initialState = InitCategories();
+const initialState = initCategories();
 
 const photo = createSlice({
   name: 'categories',
   initialState,
   reducers: {
     addCategory: (state, action) => {
-      console.log('addCategory', state, action);
+      state.push(action.payload);
+      addToLocalStorageArray('categories', action.payload);
     },
     removeCategory: (state, action) => {
       console.log('removeCategory', state, action);
