@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { addToLocalStorageArray } from "utils/helper";
+import { addToLocalStorageArray } from 'utils/helper';
 
 const initCategories = () => {
   const categories = localStorage.getItem('categories');
@@ -30,7 +30,7 @@ const initCategories = () => {
       {
         id: 6,
         name: 'Others',
-      }
+      },
     ];
     localStorage.setItem('categories', JSON.stringify(categoriesInit));
     return categoriesInit;
@@ -39,7 +39,7 @@ const initCategories = () => {
 
 const initialState = initCategories();
 
-const photo = createSlice({
+const category = createSlice({
   name: 'categories',
   initialState,
   reducers: {
@@ -51,11 +51,18 @@ const photo = createSlice({
       console.log('removeCategory', state, action);
     },
     updateCategory: (state, action) => {
-      console.log('updateCategory', state, action);
+      const udpCategory = action.payload;
+      const categoryIndex = state.findIndex(
+        (category) => category.id === udpCategory.id
+      );
+      if (categoryIndex >= 0) {
+        state[categoryIndex] = udpCategory;
+      }
+      localStorage.setItem('categories', JSON.stringify(state));
     },
   },
 });
 
-const { reducer, actions } = photo;
+const { reducer, actions } = category;
 export const { addCategory, removeCategory, updateCategory } = actions;
 export default reducer;
