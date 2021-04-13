@@ -1,68 +1,73 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { BsPlus, BsX } from "react-icons/bs";
-import {
-  Card,
-  CardBody,
-  CardHeader,
-  CardTitle,
-  Table,
-  Row,
-  Col,
-  Button
-} from "reactstrap";
-
-const thead = ["Name", "Country", "City", "Salary", "Delete"];
+import BootstrapTable from 'react-bootstrap-table-next';
+import paginationFactory from 'react-bootstrap-table2-paginator';
+import { EditColumn, DeleteColumn } from "./Column";
 
 const CategoryTable = (props) => {
   const { categoryList, onCategoryEditClick, onCategoryRemoveClick } = props;
 
+  // Init Structe table
+  const columns = [
+    {
+      dataField: 'id',
+      text: 'Category ID',
+    },
+    {
+      dataField: 'name',
+      text: 'Category Name',
+    },
+    {
+      dataField: 'edit',
+      text: 'Edit',
+      sort: false,
+      formatter: EditColumn,
+      headerAttrs: { width: 80 },
+      attrs: { width: 80 },
+      events: {
+        onClick: (e, column, columnIndex, row, rowIndex) => { handleEditClick(row) },
+      },
+    },
+    {
+      dataField: 'delete',
+      text: 'Delete',
+      sort: false,
+      formatter: DeleteColumn,
+      headerAttrs: { width: 80 },
+      attrs: { width: 80 },
+      events: {
+        onClick: (e, column, columnIndex, row, rowIndex) => { handleRemoveClick(row) },
+      },
+    },
+  ];
+
+  // Config pagination
+  const options = {
+    sizePerPage: 5,
+    hideSizePerPage: true,
+    hidePageListOnlyOnePage: true,
+  };
+
+  // Handle events
+  const handleEditClick = (category) => {
+    if (onCategoryEditClick) onCategoryEditClick(category);
+  };
+
+  const handleRemoveClick = (category) => {
+    if (onCategoryRemoveClick) onCategoryRemoveClick(category);
+  };
+
+  // Render GUI
   return (
-    <div className='content'>
-      <Row>
-        <Col xs={12}>
-          <Card>
-            <CardHeader>
-              <CardTitle tag='h4' className='text-center'>List Categories</CardTitle>
-            </CardHeader>
-            <CardBody>
-              <Table responsive>
-                <thead className='text-primary'>
-                  <tr>
-                    {thead.map((prop, key) => {
-                      if (key === thead.length - 1)
-                        return (
-                          <th key={key} className='text-center'>
-                            {prop}
-                          </th>
-                        );
-                      return <th key={key}>{prop}</th>;
-                    })}
-                  </tr>
-                </thead>
-                <tbody>
-                  {categoryList.map((prop, key) => {
-                    return (
-                      <tr key={key}>
-                        {prop.data.map((prop, key) => {
-                          if (key === thead.length - 1)
-                            return (
-                              <td key={key} className='text-right'>
-                                {prop}
-                              </td>
-                            );
-                          return <td key={key}>{prop}</td>;
-                        })}
-                        <td className='text-center'><Button  color="danger"><BsX/></Button></td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </Table>
-            </CardBody>
-          </Card>
-        </Col>
-      </Row>
+    <div>
+      <BootstrapTable
+        headerWrapperClasses='text-center'
+        bodyClasses='text-left'
+        keyField='id'
+        data={categoryList}
+        columns={columns}
+        pagination={paginationFactory(options)}
+      />
     </div>
   );
 };
