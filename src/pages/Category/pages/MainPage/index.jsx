@@ -1,50 +1,76 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import Banner from 'components/Banner';
 import Images from 'constants/images';
-import { Container } from 'reactstrap';
+import { Container, Button } from 'reactstrap';
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import CategoryTable from 'pages/Category/components/CategoryTable';
+import BootstrapTable from 'react-bootstrap-table-next';
+import paginationFactory from 'react-bootstrap-table2-paginator';
+import { BsX, BsPencil } from "react-icons/bs";
 
-const tbody = [
+// GUI column Edit
+const editFormatter = (cell, row, rowIndex, formatExtraData) => {
+  const iconStyles = { color: "white", fontSize: "1.5em" };
+
+  return (
+    <div
+      style={{ textAlign: 'center', cursor: 'pointer', lineHeight: 'normal' }}>
+      <Button style={{ fontSize: 12 }} color='success'><BsPencil style={iconStyles}/></Button>
+    </div>
+  );
+};
+// GUI column Delete
+const deleteFormatter = (cell, row, rowIndex, formatExtraData) => {
+  const iconStyles = { color: "white", fontSize: "2.0em" };
+
+  return (
+    <div
+      style={{ textAlign: 'center', cursor: 'pointer', lineHeight: 'normal' }}>
+      <Button style={{ fontSize: 10}} color="danger"><BsX style={iconStyles}/></Button>
+    </div>
+  );
+};
+// Init Structe table
+const columns = [
   {
-    className: "table-success",
-    data: ["Dakota Rice", "Niger", "Oud-Turnhout", "$36,738"],
+    dataField: 'id',
+    text: 'Category ID',
+    Cell: (row) => (
+      <div>
+        <span title={row.value}>{row.value}</span>
+      </div>
+    ),
   },
   {
-    className: "",
-    data: ["Minerva Hooper", "Curaçao", "Sinaai-Waas", "$23,789"],
+    dataField: 'name',
+    text: 'Category Name',
   },
   {
-    className: "table-info",
-    data: ["Sage Rodriguez", "Netherlands", "Baileux", "$56,142"],
+    dataField: 'edit',
+    text: 'Edit',
+    sort: false,
+    formatter: editFormatter,
+    headerAttrs: { width: 80 },
+    attrs: { width: 80 },
   },
   {
-    className: "",
-    data: ["Philip Chaney", "Korea, South", "Overland Park", "$38,735"],
-  },
-  {
-    className: "table-danger",
-    data: ["Doris Greene", "Malawi", "Feldkirchen in Kärnten", "$63,542"],
-  },
-  { className: "", data: ["Mason Porter", "Chile", "Gloucester", "$78,615"] },
-  {
-    className: "table-warning",
-    data: ["Jon Porter", "Portugal", "Gloucester", "$98,615"],
+    dataField: 'delete',
+    text: 'Delete',
+    sort: false,
+    formatter: deleteFormatter,
+    headerAttrs: { width: 80 },
+    attrs: { width: 80 },
   },
 ];
+// Config pagination
+const options = {
+  sizePerPage: 5,
+  hideSizePerPage: true,
+  hidePageListOnlyOnePage: true,
+};
 
 const MainPage = (props) => {
-
-  //const categories = useSelector((state) => state.categories);
-
-  const handleCategoryEditClick = (category) => {
-    console.log('Edit: ', category);
-  };
-
-  const handleCategoryRemoveClick = (category) => {
-    console.log('Remove: ', category);
-  };
+  const categories = useSelector((state) => state.categories);
 
   return (
     <div className='photo-main text-right'>
@@ -52,13 +78,15 @@ const MainPage = (props) => {
 
       <Container>
         <div className='py-5'>
-          <Link to='/photos/add'>Add new photo</Link>
+          <Link to='/categories/add'>Add new category</Link>
         </div>
-
-        <CategoryTable
-          categoryList={tbody}
-          onCategoryEditClick={handleCategoryEditClick}
-          onCategoryRemoveClick={handleCategoryRemoveClick}
+        <BootstrapTable
+          headerWrapperClasses='text-center'
+          bodyClasses='text-left'
+          keyField='id'
+          data={categories}
+          columns={columns}
+          pagination={paginationFactory(options)}
         />
       </Container>
     </div>
