@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Button } from 'reactstrap';
-import './RandomPhoto.scss';
+import './styles.scss';
 
 const getRandomImageUrl = () => {
   const randomId = Math.trunc(Math.random() * 2000);

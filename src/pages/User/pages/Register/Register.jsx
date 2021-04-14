@@ -5,7 +5,7 @@ const Register = () => {
   return (
     <div>
       <Container className='text-center'>
-        <h1>Login Pages</h1>
+        <h1>Register Pages</h1>
       </Container>
     </div>
   );

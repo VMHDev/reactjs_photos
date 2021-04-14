@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import './Banner.scss';
+import './styles.scss';
 
 const Banner = (props) => {
   const { title, backgroundUrl } = props;
