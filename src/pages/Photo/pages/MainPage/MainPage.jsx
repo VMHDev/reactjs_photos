@@ -1,20 +1,21 @@
+import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { Link, useHistory } from 'react-router-dom';
+import { Container, Tooltip } from 'reactstrap';
+import { BsPlusSquareFill } from 'react-icons/bs';
+
 import Banner from 'components/Banner';
 import Images from 'constants/images';
 import PhotoList from 'pages/Photo/components/PhotoList';
 import { removePhoto } from 'redux/photoSlice';
-import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { Link, useHistory } from 'react-router-dom';
-import { Container } from 'reactstrap';
 
 const MainPage = (props) => {
   const dispatch = useDispatch();
   const photos = useSelector((state) => state.photos);
   const history = useHistory();
-  // console.log('List of photos: ', photos);
 
+  // Hander Events
   const handlePhotoEditClick = (photo) => {
-    // console.log('Edit: ', photo);
     const editPhotoUrl = `/photos/${photo.id}`;
     history.push(editPhotoUrl);
   };
@@ -26,13 +27,28 @@ const MainPage = (props) => {
     dispatch(action);
   };
 
+  // Render GUI
+  const iconStyles = { color: '#0275d8', fontSize: '3.0em' };
+  const tooltipStyles = { fontSize: '20px' };
+
+  const [tooltipOpen, setTooltipOpen] = useState(false);
+  const toggle = () => setTooltipOpen(!tooltipOpen);
+
   return (
     <div className='photo-main'>
-      <Banner title='Your awesome photos 🎉' backgroundUrl={Images.PINK_BG} />
+      <Banner title='My photos 🎉' backgroundUrl={Images.BLUE_BG} />
 
       <Container className='text-center'>
-        <div className='py-5'>
-          <Link to='/photos/add'>Add new photo</Link>
+        <div className='py-5 text-right'>
+          <Link to='/photos/add' id='AddNewPhoto'><BsPlusSquareFill style={iconStyles} /></Link>
+          <Tooltip
+            placement='left'
+            isOpen={tooltipOpen}
+            target='AddNewPhoto'
+            toggle={toggle}
+            style={tooltipStyles}>
+            Add new photo
+          </Tooltip>
         </div>
 
         <PhotoList

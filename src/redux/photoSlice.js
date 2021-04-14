@@ -1,6 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { v4 as uuidv4 } from 'uuid';
 
+import { addToLocalStorageArray } from 'utils/helper';
+
 const initPhotos = () => {
   const photos = localStorage.getItem('photos');
   if (photos) {
@@ -100,13 +102,13 @@ const photo = createSlice({
   initialState,
   reducers: {
     addPhoto: (state, action) => {
-      // const newPhoto = action.payload;
       state.push(action.payload);
+      addToLocalStorageArray('photos', action.payload);
     },
     removePhoto: (state, action) => {
-      console.log(action.payload);
       const removePhotoId = action.payload;
       state = state.filter((photo) => photo.id !== removePhotoId);
+      localStorage.setItem('photos', JSON.stringify(state));
       return state;
     },
     updatePhoto: (state, action) => {
@@ -115,6 +117,7 @@ const photo = createSlice({
       if (photoIndex >= 0) {
         state[photoIndex] = newPhoto;
       }
+      localStorage.setItem('photos', JSON.stringify(state));
     },
   },
 });
