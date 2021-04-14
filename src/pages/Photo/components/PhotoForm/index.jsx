@@ -1,23 +1,31 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { Button, FormGroup, Spinner } from 'reactstrap';
-import { PHOTO_CATEGORY_OPTIONS } from 'constants/global';
 import { Formik, Form, FastField } from 'formik';
 import InputField from 'components/InputField';
 import SelectField from 'components/SelectField';
 import RandomPhotoField from 'components/RandomPhotoField';
 import * as Yup from 'yup';
 
-PhotoForm.propTypes = {
-  onSubmit: PropTypes.func,
+const LoadDataCategories = () => {
+  const categories = useSelector((state) => state.categories);
+  let categoriesOption = [];
+  for (let item of categories) {
+    console.log(item);
+    const itemOptions = {
+      value: item.id,
+      label: item.name,
+    };
+    categoriesOption.push(itemOptions);
+  }
+  return categoriesOption;
 };
 
-PhotoForm.defaultProps = {
-  onSubmit: null,
-};
-
-function PhotoForm(props) {
+const PhotoForm = (props) => {
   const { initialValues, isAddMode } = props;
+
+  const categoriesOption = LoadDataCategories();
 
   const validationSchema = Yup.object().shape({
     title: Yup.string().required('This field is required.'),
@@ -59,7 +67,7 @@ function PhotoForm(props) {
               component={SelectField}
               label='Category'
               placeholder="What's your photo category?"
-              options={PHOTO_CATEGORY_OPTIONS}
+              options={categoriesOption}
             />
 
             <FastField
@@ -79,6 +87,14 @@ function PhotoForm(props) {
       }}
     </Formik>
   );
-}
+};
+
+PhotoForm.propTypes = {
+  onSubmit: PropTypes.func,
+};
+
+PhotoForm.defaultProps = {
+  onSubmit: null,
+};
 
 export default PhotoForm;
