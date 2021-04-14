@@ -48,7 +48,10 @@ const category = createSlice({
       addToLocalStorageArray('categories', action.payload);
     },
     removeCategory: (state, action) => {
-      console.log('removeCategory', state, action);
+      const removeCategoryId = action.payload;
+      state = state.filter((category) => category.id !== removeCategoryId);
+      localStorage.setItem('categories', JSON.stringify(state));
+      return state;
     },
     updateCategory: (state, action) => {
       const udpCategory = action.payload;

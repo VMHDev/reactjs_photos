@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Container } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { useHistory } from 'react-router';
@@ -7,19 +7,22 @@ import { useHistory } from 'react-router';
 import Banner from 'components/Banner';
 import Images from 'constants/images';
 import CategoryTable from 'pages/Category/components/CategoryTable';
+import { removeCategory } from 'redux/categorySlice';
 
 const MainPage = (props) => {
   const categories = useSelector((state) => state.categories);
   const history = useHistory();
+  const dispatch = useDispatch();
 
-  const handlePhotoEditClick = (photo) => {
-    console.log('Edit: ', photo);
-    const editPhotoUrl = `/categories/${photo.id}`;
+  const handlePhotoEditClick = (category) => {
+    const editPhotoUrl = `/categories/${category.id}`;
     history.push(editPhotoUrl);
   };
 
-  const handlePhotoRemoveClick = (photo) => {
-    console.log('Remove: ', photo);
+  const handlePhotoRemoveClick = (category) => {
+    const removePhotoId = category.id;
+    const action = removeCategory(removePhotoId);
+    dispatch(action);
   };
 
   return (
