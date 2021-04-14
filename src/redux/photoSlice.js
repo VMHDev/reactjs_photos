@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { v4 as uuidv4 } from 'uuid';
 
-const InitPhotos = () => {
+const initPhotos = () => {
   const photos = localStorage.getItem('photos');
   if (photos) {
     return JSON.parse(photos);
@@ -93,7 +93,7 @@ const InitPhotos = () => {
   }
 };
 
-const initialState = InitPhotos();
+const initialState = initPhotos();
 
 const photo = createSlice({
   name: 'photos',
