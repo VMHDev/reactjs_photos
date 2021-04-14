@@ -1,30 +1,48 @@
 import React, { Suspense } from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect,
+} from 'react-router-dom';
+
 import './App.scss';
 import Header from './components/Header';
 import NotFound from './components/NotFound';
 
-// Lazy load - Code splitting => Chỉ load components khi mà components được gọi. Cần sử dụng chung với tag Suspense
-const Photo = React.lazy(() => import('./pages/Photo'));
-const Category = React.lazy(() => import('./pages/Category'));
-const Home = React.lazy(() => import('./pages/Home'));
-const User = React.lazy(() => import('./pages/User'));
+// Constants
+import {
+  PATH_HOME,
+  PATH_PHOTOS,
+  PATH_CATEGORIES,
+  PATH_USER,
+} from './constants/route';
 
+// Lazy load Components page
+const Photo = React.lazy(() => import('./pages/Photo/Photo'));
+const Category = React.lazy(() => import('./pages/Category/Category'));
+const Home = React.lazy(() => import('./pages/Home/Home'));
+const User = React.lazy(() => import('./pages/User/User'));
+
+// Main
 function App() {
   return (
     <div className='photo-app'>
       <Suspense fallback={<div>Loading ...</div>}>
-        <BrowserRouter>
+        <Router>
           <Header />
 
           <Switch>
-            <Route exact path='/' component={Home} />
-            <Route path='/photos' component={Photo} />
-            <Route path='/categories' component={Category} />
-            <Route path='/user' component={User} />
+            <Redirect exact from="/" to={PATH_HOME} />
+
+            <Route exact path={PATH_HOME} component={Home} />
+            <Route path={PATH_PHOTOS} component={Photo} />
+            <Route path={PATH_CATEGORIES} component={Category} />
+            <Route path={PATH_USER} component={User} />
+            
             <Route component={NotFound} />
           </Switch>
-        </BrowserRouter>
+        </Router>
       </Suspense>
     </div>
   );
