@@ -11,7 +11,7 @@ const AddEditPage = (props) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const { photoId } = useParams();
-  console.log('photoId', photoId);
+
   const isAddMode = !photoId;
 
   const editedPhoto = useSelector((state) => {
@@ -29,6 +29,7 @@ const AddEditPage = (props) => {
       }
     : editedPhoto;
 
+  // Handle events
   const handleSubmit = async (values) => {
     try {
       console.log('Form submit: ', values);
@@ -49,9 +50,10 @@ const AddEditPage = (props) => {
     }
   };
 
+  // Render GUI
   return (
     <div className='photo-edit'>
-      <Banner title='Pick your amazing photo 😎' />
+      <Banner title={isAddMode ? 'Add new photo 📷' : 'Update photo 📷'} />
 
       <div className='photo-edit__form'>
         <PhotoForm
