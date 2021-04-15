@@ -10,6 +10,8 @@ import Images from 'constants/images';
 import CategoryTable from 'pages/Category/components/CategoryTable';
 import { removeCategory } from 'redux/categorySlice';
 
+import { PATH_CATEGORIES } from 'constants/route';
+
 const MainPage = (props) => {
   const categories = useSelector((state) => state.categories);
   const history = useHistory();
@@ -17,8 +19,7 @@ const MainPage = (props) => {
 
   // Hander Events
   const handlePhotoEditClick = (category) => {
-    const editPhotoUrl = `/categories/${category.id}`;
-    history.push(editPhotoUrl);
+    history.push(PATH_CATEGORIES + category.id);
   };
 
   const handlePhotoRemoveClick = (category) => {
@@ -40,7 +41,9 @@ const MainPage = (props) => {
 
       <Container>
         <div className='py-5'>
-          <Link to='/categories/add' id='AddNewCategory'><BsPlusSquareFill style={iconStyles} /></Link>
+          <Link to='/categories/add' id='AddNewCategory'>
+            <BsPlusSquareFill style={iconStyles} />
+          </Link>
           <Tooltip
             placement='left'
             isOpen={tooltipOpen}
