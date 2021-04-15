@@ -1,11 +1,15 @@
 import React from 'react';
-import Banner from 'components/Banner';
-import PhotoForm from 'pages/Photo/components/PhotoForm';
-import './styles.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { addPhoto, updatePhoto } from 'redux/photoSlice';
 import { useHistory, useParams } from 'react-router';
 import { v4 as uuidv4 } from 'uuid';
+
+import Banner from 'components/Banner';
+import PhotoForm from 'pages/Photo/components/PhotoForm';
+
+import { PATH_PHOTOS } from 'constants/route';
+
+import './styles.scss';
 
 const AddEditPage = (props) => {
   const dispatch = useDispatch();
@@ -42,7 +46,7 @@ const AddEditPage = (props) => {
         console.log({ action });
         dispatch(action);
       }
-      history.push('/photos');
+      history.push(PATH_PHOTOS);
       return true;
     } catch (error) {
       console.log(error);
