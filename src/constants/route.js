@@ -5,9 +5,13 @@ export const PATH_CATEGORIES = '/categories';
 export const PATH_USER = '/user';
 
 // USER
-export const PATH_USER_LOGIN = '/login';
-export const PATH_USER_REGISTER = '/register';
-export const PATH_USER_FORGOTPASSWORD = '/forgotpassword';
+export const PATH_USER_LOGIN = '/user/login';
+export const PATH_USER_REGISTER = '/user/register';
+export const PATH_USER_FORGOTPASSWORD = '/user/forgotpassword';
+
+export const PATH_LOGIN = '/login';
+export const PATH_REGISTER = '/register';
+export const PATH_FORGOTPASSWORD = '/forgotpassword';
 
 // PHOTO
 export const PATH_PHOTO_ADD = '/add';
