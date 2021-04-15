@@ -10,7 +10,7 @@ import Images from 'constants/images';
 import './styles.scss';
 
 const Register = (props) => {
-  const initialValues = { name: '', email: '', password: '', confirm_password: '' };
+  const initialValues = { name: '', email: '', password: '', confirmPassword: '' };
   return (
     <div className='register'>
       <Banner title='Register 🔥' backgroundUrl={Images.BRIDGE2_BG} />

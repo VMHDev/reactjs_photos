@@ -2,13 +2,29 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Button, FormGroup } from 'reactstrap';
 import { Formik, Form, FastField } from 'formik';
+import * as Yup from 'yup';
 import InputField from 'components/InputField';
 
 const RegisterForm = (props) => {
   const { initialValues } = props;
 
+  const validationSchema = Yup.object().shape({
+    name: Yup.string()
+    .required('This field is required.'),
+
+    email: Yup.string()
+    .required('This field is required.').email('This field is invalid email'),
+
+    password: Yup.string()
+    .required('This field is required.').min(8, 'Min length 8 character').max(20, 'Max length 20 character'),
+
+    confirmPassword: Yup.string()
+    .oneOf([Yup.ref('password'), null], "Password don't match!")
+    .required('This field is required.'),
+  });
+
   return (
-    <Formik initialValues={initialValues}>
+    <Formik initialValues={initialValues} validationSchema={validationSchema}>
       {(formikProps) => {
         const { values, errors, touched } = formikProps;
         console.log({ values, errors, touched });
@@ -38,7 +54,7 @@ const RegisterForm = (props) => {
             />
 
             <FastField
-              name='confirm_password'
+              name='confirmPassword'
               component={InputField}
               label='Confirm Password'
               placeholder='********'
