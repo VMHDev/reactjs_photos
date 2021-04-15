@@ -1,9 +1,15 @@
 import PropTypes from 'prop-types';
-import React from 'react';
-import { Button, FormGroup } from 'reactstrap';
+import React, { Fragment } from 'react';
+import { Button, FormGroup, Row, Col } from 'reactstrap';
 import { Formik, Form, FastField } from 'formik';
+import { NavLink } from 'react-router-dom';
+
 import InputField from 'components/InputField';
 
+// Constants
+import { PATH_USER_REGISTER, PATH_USER_FORGOTPASSWORD } from 'constants/route';
+
+// Main
 const LoginForm = (props) => {
   const { initialValues } = props;
 
@@ -14,27 +20,44 @@ const LoginForm = (props) => {
         console.log({ values, errors, touched });
 
         return (
-          <Form>
-            <FastField
-              name='email'
-              component={InputField}
-              label='Email'
-              placeholder='your-email@mail.com'
-            />
+          <Fragment>
+            <Form>
+              <FastField
+                name='email'
+                component={InputField}
+                label='Email'
+                placeholder='your-email@mail.com'
+              />
 
-            <FastField
-              name='password'
-              component={InputField}
-              label='Password'
-              placeholder='********'
-            />
+              <FastField
+                name='password'
+                component={InputField}
+                label='Password'
+                placeholder='********'
+              />
 
-            <FormGroup>
-              <Button type='submit' color='primary'>
-                Login
-              </Button>
-            </FormGroup>
-          </Form>
+              <FormGroup>
+                <Row xs='2'>
+                  <Col>
+                    <Button type='submit' color='primary'>
+                      Login
+                    </Button>
+                  </Col>
+                  <Col className='align-self-center'>
+                    <NavLink
+                      to={PATH_USER_FORGOTPASSWORD}
+                      activeClassName='selected'
+                      className='float-right'>
+                      Fogot Password
+                    </NavLink>
+                  </Col>
+                </Row>
+              </FormGroup>
+            </Form>
+            <NavLink to={PATH_USER_REGISTER} activeClassName='selected'>
+              Create new account
+            </NavLink>
+          </Fragment>
         );
       }}
     </Formik>
