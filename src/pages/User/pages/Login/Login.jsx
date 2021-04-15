@@ -11,7 +11,7 @@ import './styles.scss';
 
 // Main
 const LoginPage = (props) => {
-  const initialValues = {};
+  const initialValues = { email: '', password: '' };
   return (
     <div className='login'>
       <Banner title='Login 🎉' backgroundUrl={Images.BRIDGE_BG} />

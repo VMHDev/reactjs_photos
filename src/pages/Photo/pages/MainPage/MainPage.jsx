@@ -9,6 +9,8 @@ import Images from 'constants/images';
 import PhotoList from 'pages/Photo/components/PhotoList';
 import { removePhoto } from 'redux/photoSlice';
 
+import { PATH_PHOTOS } from 'constants/route';
+
 const MainPage = (props) => {
   const dispatch = useDispatch();
   const photos = useSelector((state) => state.photos);
@@ -16,8 +18,7 @@ const MainPage = (props) => {
 
   // Hander Events
   const handlePhotoEditClick = (photo) => {
-    const editPhotoUrl = `/photos/${photo.id}`;
-    history.push(editPhotoUrl);
+    history.push(PATH_PHOTOS + photo.id);
   };
 
   const handlePhotoRemoveClick = (photo) => {
@@ -40,7 +41,9 @@ const MainPage = (props) => {
 
       <Container className='text-center'>
         <div className='py-5 text-right'>
-          <Link to='/photos/add' id='AddNewPhoto'><BsPlusSquareFill style={iconStyles} /></Link>
+          <Link to='/photos/add' id='AddNewPhoto'>
+            <BsPlusSquareFill style={iconStyles} />
+          </Link>
           <Tooltip
             placement='left'
             isOpen={tooltipOpen}

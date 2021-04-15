@@ -1,14 +1,56 @@
 import React from 'react';
-import { Container } from 'reactstrap';
+import { useHistory } from 'react-router';
+import { useDispatch } from 'react-redux';
+import { v4 as uuidv4 } from 'uuid';
 
-const Register = () => {
+import { addUser } from 'redux/userSlice';
+import RegisterForm from 'pages/User/components/RegisterForm';
+import Banner from 'components/Banner';
+
+// Constants
+import Images from 'constants/images';
+import { PATH_USER_LOGIN } from 'constants/route';
+
+// Styles
+import './styles.scss';
+
+const Register = (props) => {
+  const dispatch = useDispatch();
+  const history = useHistory();
+
+  const initialValues = {
+    id: uuidv4(),
+    name: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+  };
+
+  // Handle events
+  const handleSubmit = async (values) => {
+    try {
+      let objUser = { ...values };
+      delete objUser.confirmPassword;
+      const action = addUser(objUser);
+      dispatch(action);
+      history.push(PATH_USER_LOGIN);
+      return true;
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
+  };
+
   return (
-    <div>
-      <Container className='text-center'>
-        <h1>Register Pages</h1>
-      </Container>
+    <div className='register'>
+      <Banner title='Register 🔥' backgroundUrl={Images.BRIDGE2_BG} />
+      <div className='register__form'>
+        <RegisterForm initialValues={initialValues} onSubmit={handleSubmit} />
+      </div>
     </div>
   );
 };
+
+Register.propTypes = {};
 
 export default Register;
