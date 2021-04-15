@@ -34,11 +34,20 @@ const RegisterForm = (props) => {
               component={InputField}
               label='Password'
               placeholder='********'
+              type='password'
+            />
+
+            <FastField
+              name='confirm_password'
+              component={InputField}
+              label='Confirm Password'
+              placeholder='********'
+              type='password'
             />
 
             <FormGroup>
               <Button type='submit' color='primary'>
-                Login
+                Register
               </Button>
             </FormGroup>
           </Form>
