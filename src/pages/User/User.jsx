@@ -3,9 +3,9 @@ import { Route, Switch, Redirect, useRouteMatch } from 'react-router-dom';
 
 // Constants
 import {
-  PATH_USER_LOGIN,
-  PATH_USER_REGISTER,
-  PATH_USER_FORGOTPASSWORD,
+  PATH_LOGIN,
+  PATH_REGISTER,
+  PATH_FORGOTPASSWORD,
 } from '../../constants/route';
 
 // Lazy load Components page
@@ -20,12 +20,12 @@ const User = (props) => {
   return (
     <Switch>
       <Route exact path={match.url}>
-        <Redirect to={match.url + PATH_USER_LOGIN} />
+        <Redirect to={match.url + PATH_LOGIN} />
       </Route>
-      <Route path={match.url + PATH_USER_LOGIN} component={Login} />
-      <Route path={match.url + PATH_USER_REGISTER} component={Register} />
+      <Route path={match.url + PATH_LOGIN} component={Login} />
+      <Route path={match.url + PATH_REGISTER} component={Register} />
       <Route
-        path={match.url + PATH_USER_FORGOTPASSWORD}
+        path={match.url + PATH_FORGOTPASSWORD}
         component={ForgotPassword}
       />
     </Switch>
