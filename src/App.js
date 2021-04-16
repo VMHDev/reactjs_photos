@@ -37,12 +37,10 @@ function App() {
     try {
       const action = updateStatusLogin('');
       await dispatch(action);
-      alert('Logout Success!');
-      return true;
+      return <Redirect to={PATH_HOME} />;
     } catch (error) {
       alert('Logout Fail!');
       console.log(error);
-      return false;
     }
   };
 

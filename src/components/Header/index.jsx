@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import {
   Collapse,
   Navbar,
@@ -58,9 +59,15 @@ const Header = (props) => {
               {userFound.name}
             </DropdownToggle>
             <DropdownMenu right>
-              <DropdownItem>Account</DropdownItem>
               <DropdownItem>
-                <NavLink onClick={onLogoutClick}>Logout</NavLink>
+                <Link to='' className='link'>
+                  Account
+                </Link>
+              </DropdownItem>
+              <DropdownItem>
+                <Link to='' onClick={onLogoutClick} className='link'>
+                  Logout
+                </Link>
               </DropdownItem>
             </DropdownMenu>
           </UncontrolledDropdown>
