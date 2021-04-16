@@ -2,6 +2,7 @@ import React from 'react';
 import { useHistory } from 'react-router';
 import { useDispatch } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
+import { Base64 } from 'js-base64';
 
 import { addUser } from 'redux/userSlice';
 import RegisterForm from 'pages/User/components/RegisterForm';
@@ -31,6 +32,7 @@ const Register = (props) => {
     try {
       let objUser = { ...values };
       delete objUser.confirmPassword;
+      objUser.password = Base64.encode(objUser.password);
       const action = addUser(objUser);
       dispatch(action);
       history.push(PATH_USER_LOGIN);

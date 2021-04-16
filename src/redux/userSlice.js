@@ -12,7 +12,7 @@ const initUsers = () => {
         id: uuidv4(),
         name: 'admin',
         email: 'admin@admin.com',
-        password: '12345678',
+        password: 'MTIzNDU2',
       },
     ];
     localStorage.setItem('users', JSON.stringify(usersInit));

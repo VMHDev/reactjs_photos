@@ -1,6 +1,7 @@
 import React from 'react';
 import { useHistory } from 'react-router';
 import { useSelector } from 'react-redux';
+import { Base64 } from 'js-base64';
 
 import LoginForm from 'pages/User/components/LoginForm';
 import Banner from 'components/Banner';
@@ -27,7 +28,8 @@ const LoginPage = (props) => {
     try {
       const userFound = users.find(
         (user) =>
-          user.email === values.email && user.password === values.password
+          user.email === values.email &&
+          user.password === Base64.encode(values.password)
       );
       if (userFound) {
         history.push(PATH_HOME);
