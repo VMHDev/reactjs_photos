@@ -34,7 +34,7 @@ const LoginPage = (props) => {
           user.password === Base64.encode(values.password)
       );
       if (userFound) {
-        const action = updateStatusLogin(true);
+        const action = updateStatusLogin(userFound.id);
         dispatch(action);
         history.push(PATH_HOME);
       } else {

@@ -4,10 +4,10 @@ import { v4 as uuidv4 } from 'uuid';
 const initUsers = () => {
   const users = localStorage.getItem('users');
   if (users) {
-    return JSON.parse(users).data;
+    return JSON.parse(users);
   } else {
     const usersInit = {
-      isLogin: false,
+      login: '',
       data: [
         {
           id: uuidv4(),
@@ -18,25 +18,22 @@ const initUsers = () => {
       ],
     };
     localStorage.setItem('users', JSON.stringify(usersInit));
-    return usersInit.data;
+    return usersInit;
   }
 };
 
-const initialState = {
-  isLogin: false,
-  data: initUsers(),
-};
+const initialState = initUsers();
 
 const user = createSlice({
   name: 'users',
   initialState,
   reducers: {
     updateStatusLogin: (state, action) => {
-      state.isLogin = action.payload;
+      state.login = action.payload;
       // Update local storage
       let existLocal = localStorage.getItem('users');
       let obj = existLocal ? JSON.parse(existLocal) : {};
-      obj.isLogin = action.payload;
+      obj.login = action.payload;
       localStorage.setItem('users', JSON.stringify(obj));
     },
     addUser: (state, action) => {

@@ -12,6 +12,7 @@ import {
   DropdownItem,
   NavLink,
 } from 'reactstrap';
+import { useSelector } from 'react-redux';
 
 // Constants
 import {
@@ -25,7 +26,10 @@ import {
 import './styles.scss';
 
 const Header = (props) => {
-  const isLogin = false;
+  const loginID = useSelector((state) => state.users.login);
+  const dataUsers = useSelector((state) => state.users.data);
+  const userFound = dataUsers.find((user) => user.id === loginID);
+
   // Render GUI
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
@@ -45,10 +49,10 @@ const Header = (props) => {
             </NavItem>
           </Nav>
         </Collapse>
-        {isLogin ? (
+        {loginID !== '' ? (
           <UncontrolledDropdown>
             <DropdownToggle nav caret>
-              User Name
+              {userFound.name}
             </DropdownToggle>
             <DropdownMenu right>
               <DropdownItem>Account</DropdownItem>
