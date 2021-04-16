@@ -1,8 +1,9 @@
 import React from 'react';
 import { useHistory } from 'react-router';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Base64 } from 'js-base64';
 
+import { updateStatusLogin } from 'redux/userSlice';
 import LoginForm from 'pages/User/components/LoginForm';
 import Banner from 'components/Banner';
 
@@ -15,7 +16,8 @@ import './styles.scss';
 
 // Main
 const LoginPage = (props) => {
-  const users = useSelector((state) => state.users);
+  const users = useSelector((state) => state.users.data);
+  const dispatch = useDispatch();
   const history = useHistory();
 
   const initialValues = {
@@ -32,6 +34,8 @@ const LoginPage = (props) => {
           user.password === Base64.encode(values.password)
       );
       if (userFound) {
+        const action = updateStatusLogin(true);
+        dispatch(action);
         history.push(PATH_HOME);
       } else {
         alert('Login Fail');

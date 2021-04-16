@@ -1,38 +1,55 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { v4 as uuidv4 } from 'uuid';
-import { addToLocalStorageArray } from 'utils/helper';
 
 const initUsers = () => {
   const users = localStorage.getItem('users');
   if (users) {
-    return JSON.parse(users);
+    return JSON.parse(users).data;
   } else {
-    const usersInit = [
-      {
-        id: uuidv4(),
-        name: 'admin',
-        email: 'admin@admin.com',
-        password: 'MTIzNDU2',
-      },
-    ];
+    const usersInit = {
+      isLogin: false,
+      data: [
+        {
+          id: uuidv4(),
+          name: 'admin',
+          email: 'admin@admin.com',
+          password: 'MTIzNDU2',
+        },
+      ],
+    };
     localStorage.setItem('users', JSON.stringify(usersInit));
-    return usersInit;
+    return usersInit.data;
   }
 };
 
-const initialState = initUsers();
+const initialState = {
+  isLogin: false,
+  data: initUsers(),
+};
 
 const user = createSlice({
   name: 'users',
   initialState,
   reducers: {
+    updateStatusLogin: (state, action) => {
+      state.isLogin = action.payload;
+      // Update local storage
+      let existLocal = localStorage.getItem('users');
+      let obj = existLocal ? JSON.parse(existLocal) : {};
+      obj.isLogin = action.payload;
+      localStorage.setItem('users', JSON.stringify(obj));
+    },
     addUser: (state, action) => {
-      state.push(action.payload);
-      addToLocalStorageArray('users', action.payload);
+      state.data.push(action.payload);
+      // Update local storage
+      let existLocal = localStorage.getItem('users');
+      let obj = existLocal ? JSON.parse(existLocal) : {};
+      obj.data.push(action.payload);
+      localStorage.setItem('users', JSON.stringify(obj));
     },
   },
 });
 
 const { reducer, actions } = user;
-export const { addUser } = actions;
+export const { updateStatusLogin, addUser } = actions;
 export default reducer;
