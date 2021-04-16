@@ -22,10 +22,10 @@ const MainPage = (props) => {
     history.push(PATH_CATEGORIES + category.id);
   };
 
-  const handlePhotoRemoveClick = (category) => {
+  const handlePhotoRemoveClick = async (category) => {
     const removePhotoId = category.id;
     const action = removeCategory(removePhotoId);
-    dispatch(action);
+    await dispatch(action);
   };
 
   // Render GUI

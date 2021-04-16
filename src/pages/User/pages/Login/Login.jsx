@@ -35,7 +35,7 @@ const LoginPage = (props) => {
       );
       if (userFound) {
         const action = updateStatusLogin(userFound.id);
-        dispatch(action);
+        await dispatch(action);
         history.push(PATH_HOME);
       } else {
         alert('Login Fail');
@@ -43,6 +43,7 @@ const LoginPage = (props) => {
 
       return true;
     } catch (error) {
+      alert('Login Fail');
       console.log(error);
       return false;
     }

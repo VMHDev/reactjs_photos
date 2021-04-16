@@ -46,12 +46,10 @@ const AddEditPage = (props) => {
       console.log('Form submit: ', values);
       if (isAddMode) {
         const action = addCategory(values);
-        console.log({ action });
-        dispatch(action);
+        await dispatch(action);
       } else {
         const action = updateCategory(values);
-        console.log({ action });
-        dispatch(action);
+        await dispatch(action);
       }
       history.push(PATH_CATEGORIES);
       return true;

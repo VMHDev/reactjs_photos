@@ -34,7 +34,7 @@ const Register = (props) => {
       delete objUser.confirmPassword;
       objUser.password = Base64.encode(objUser.password);
       const action = addUser(objUser);
-      dispatch(action);
+      await dispatch(action);
       history.push(PATH_USER_LOGIN);
       return true;
     } catch (error) {

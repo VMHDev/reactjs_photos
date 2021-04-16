@@ -40,11 +40,11 @@ const AddEditPage = (props) => {
       if (isAddMode) {
         const action = addPhoto(values);
         console.log({ action });
-        dispatch(action);
+        await dispatch(action);
       } else {
         const action = updatePhoto(values);
         console.log({ action });
-        dispatch(action);
+        await dispatch(action);
       }
       history.push(PATH_PHOTOS);
       return true;

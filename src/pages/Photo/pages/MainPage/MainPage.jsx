@@ -21,11 +21,11 @@ const MainPage = (props) => {
     history.push(PATH_PHOTOS + photo.id);
   };
 
-  const handlePhotoRemoveClick = (photo) => {
+  const handlePhotoRemoveClick = async (photo) => {
     console.log('Remove: ', photo);
     const removePhotoId = photo.id;
     const action = removePhoto(removePhotoId);
-    dispatch(action);
+    await dispatch(action);
   };
 
   // Render GUI
