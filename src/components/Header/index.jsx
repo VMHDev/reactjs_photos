@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import {
   Collapse,
   Navbar,
@@ -12,6 +14,7 @@ import {
   DropdownItem,
   NavLink,
 } from 'reactstrap';
+import { useSelector } from 'react-redux';
 
 // Constants
 import {
@@ -25,7 +28,12 @@ import {
 import './styles.scss';
 
 const Header = (props) => {
-  const isLogin = false;
+  const loginID = useSelector((state) => state.users.login);
+  const dataUsers = useSelector((state) => state.users.data);
+  const userFound = dataUsers.find((user) => user.id === loginID);
+
+  const { onLogoutClick } = props;
+
   // Render GUI
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
@@ -45,14 +53,22 @@ const Header = (props) => {
             </NavItem>
           </Nav>
         </Collapse>
-        {isLogin ? (
+        {loginID !== '' ? (
           <UncontrolledDropdown>
             <DropdownToggle nav caret>
-              User Name
+              {userFound.name}
             </DropdownToggle>
             <DropdownMenu right>
-              <DropdownItem>Account</DropdownItem>
-              <DropdownItem>Logout</DropdownItem>
+              <DropdownItem>
+                <Link to='' className='link'>
+                  Account
+                </Link>
+              </DropdownItem>
+              <DropdownItem>
+                <Link to='' onClick={onLogoutClick} className='link'>
+                  Logout
+                </Link>
+              </DropdownItem>
             </DropdownMenu>
           </UncontrolledDropdown>
         ) : (
@@ -63,6 +79,12 @@ const Header = (props) => {
   );
 };
 
-Header.propTypes = {};
+Header.propTypes = {
+  onLogoutClick: PropTypes.func,
+};
+
+Header.defaultProps = {
+  onLogoutClick: null,
+};
 
 export default Header;

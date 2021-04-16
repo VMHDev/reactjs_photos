@@ -1,8 +1,9 @@
-import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
+import PropTypes from 'prop-types';
 import { Button, FormGroup, Row, Col } from 'reactstrap';
 import { Formik, Form, FastField } from 'formik';
 import { NavLink } from 'react-router-dom';
+import * as Yup from 'yup';
 
 import InputField from 'components/InputField';
 
@@ -13,8 +14,22 @@ import { PATH_USER_REGISTER, PATH_USER_FORGOTPASSWORD } from 'constants/route';
 const LoginForm = (props) => {
   const { initialValues } = props;
 
+  const validationSchema = Yup.object().shape({
+    email: Yup.string()
+      .required('This field is required.')
+      .email('This field is invalid email'),
+
+    password: Yup.string()
+      .required('This field is required.')
+      .min(6, 'Min length 6 character')
+      .max(20, 'Max length 20 character'),
+  });
+
   return (
-    <Formik initialValues={initialValues}>
+    <Formik
+      initialValues={initialValues}
+      validationSchema={validationSchema}
+      onSubmit={props.onSubmit}>
       {(formikProps) => {
         const { values, errors, touched } = formikProps;
         console.log({ values, errors, touched });
@@ -34,6 +49,7 @@ const LoginForm = (props) => {
                 component={InputField}
                 label='Password'
                 placeholder='********'
+                type='password'
               />
 
               <FormGroup>
