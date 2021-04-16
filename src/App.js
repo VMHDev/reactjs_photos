@@ -6,6 +6,7 @@ import {
   Redirect,
 } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import { Spinner } from 'reactstrap';
 
 import { updateStatusLogin } from 'redux/userSlice';
 import Header from './components/Header';
@@ -23,7 +24,12 @@ import {
 import './App.scss';
 
 // Lazy load Components page
-const Photo = React.lazy(() => import('./pages/Photo/Photo'));
+const Photo = React.lazy(
+  () =>
+    new Promise((resolve) => {
+      setTimeout(() => resolve(import('./pages/Photo/Photo')), 1000);
+    })
+);
 const Category = React.lazy(() => import('./pages/Category/Category'));
 const Home = React.lazy(() => import('./pages/Home/Home'));
 const User = React.lazy(() => import('./pages/User/User'));
@@ -47,7 +53,16 @@ function App() {
   // Render GUI
   return (
     <div className='photo-app'>
-      <Suspense fallback={<div>Loading ...</div>}>
+      <Suspense
+        fallback={
+          <div className='page-wrap d-flex flex-row align-items-center'>
+            <div className='container'>
+              <div className='row justify-content-center'>
+                <Spinner style={{ width: '3rem', height: '3rem' }} />
+              </div>
+            </div>
+          </div>
+        }>
         <Router>
           <Header onLogoutClick={handleLogoutClick} />
 

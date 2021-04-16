@@ -50,10 +50,12 @@ const LoginPage = (props) => {
   };
 
   return (
-    <div className='login'>
-      <Banner title='Login 🎉' backgroundUrl={Images.BRIDGE_BG} />
-      <div className='login__form'>
-        <LoginForm initialValues={initialValues} onSubmit={handleSubmit} />
+    <div>
+      <div className='login'>
+        <Banner title='Login 🎉' backgroundUrl={Images.BRIDGE_BG} />
+        <div className='login__form'>
+          <LoginForm initialValues={initialValues} onSubmit={handleSubmit} />
+        </div>
       </div>
     </div>
   );
