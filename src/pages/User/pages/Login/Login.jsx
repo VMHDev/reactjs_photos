@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment, useState } from 'react';
 import { useHistory } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
 import { Base64 } from 'js-base64';
@@ -6,6 +6,8 @@ import { Base64 } from 'js-base64';
 import { updateStatusLogin } from 'redux/userSlice';
 import LoginForm from 'pages/User/components/LoginForm';
 import Banner from 'components/Banner';
+import Loading from 'components/Loading';
+import { timeout } from 'utils/helper';
 
 // Constants
 import Images from 'constants/images';
@@ -16,6 +18,7 @@ import './styles.scss';
 
 // Main
 const LoginPage = (props) => {
+  const [isShow, setIsShow] = useState(false);
   const users = useSelector((state) => state.users.data);
   const dispatch = useDispatch();
   const history = useHistory();
@@ -27,6 +30,7 @@ const LoginPage = (props) => {
 
   // Handle events
   const handleSubmit = async (values) => {
+    setIsShow(true);
     try {
       const userFound = users.find(
         (user) =>
@@ -36,28 +40,31 @@ const LoginPage = (props) => {
       if (userFound) {
         const action = updateStatusLogin(userFound.id);
         await dispatch(action);
+        await timeout(1000);
+        setIsShow(false);
         history.push(PATH_HOME);
       } else {
+        setIsShow(false);
         alert('Login Fail');
       }
-
-      return true;
     } catch (error) {
+      setIsShow(false);
       alert('Login Fail');
       console.log(error);
-      return false;
     }
   };
 
   return (
-    <div>
-      <div className='login'>
-        <Banner title='Login 🎉' backgroundUrl={Images.BRIDGE_BG} />
-        <div className='login__form'>
-          <LoginForm initialValues={initialValues} onSubmit={handleSubmit} />
+    <Fragment>
+      <Loading isShow={isShow}>
+        <div className='login'>
+          <Banner title='Login 🎉' backgroundUrl={Images.BRIDGE_BG} />
+          <div className='login__form'>
+            <LoginForm initialValues={initialValues} onSubmit={handleSubmit} />
+          </div>
         </div>
-      </div>
-    </div>
+      </Loading>
+    </Fragment>
   );
 };
 
