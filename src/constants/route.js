@@ -12,6 +12,7 @@ export const PATH_USER_FORGOTPASSWORD = '/user/forgotpassword/';
 export const PATH_LOGIN = '/login/';
 export const PATH_REGISTER = '/register/';
 export const PATH_FORGOTPASSWORD = '/forgotpassword/';
+export const PATH_RESETPASSWORD = '/resetpassword/';
 
 // PHOTO
 export const PATH_PHOTO_ADD = '/add/';

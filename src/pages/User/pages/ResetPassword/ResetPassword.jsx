@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { Base64 } from 'js-base64';
 
 import { addUser } from 'redux/userSlice';
-import ForgotPasswordForm from 'pages/User/components/ForgotPasswordForm';
+import ResetPasswordForm from 'pages/User/components/ResetPasswordForm';
 import Banner from 'components/Banner';
 
 // Constants
@@ -15,7 +15,7 @@ import { PATH_USER_LOGIN } from 'constants/route';
 // Styles
 import './styles.scss';
 
-const ForgotPassword = (props) => {
+const ResetPassword = (props) => {
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -44,10 +44,10 @@ const ForgotPassword = (props) => {
   };
 
   return (
-    <div className='forgot-password'>
-      <Banner title='Forgot Password 🔥' backgroundUrl={Images.BRIDGE2_BG} />
-      <div className='forgot-password__form'>
-        <ForgotPasswordForm
+    <div className='reset-password'>
+      <Banner title='Reset Password 🔥' backgroundUrl={Images.BRIDGE2_BG} />
+      <div className='reset-password__form'>
+        <ResetPasswordForm
           initialValues={initialValues}
           onSubmit={handleSubmit}
         />
@@ -56,6 +56,6 @@ const ForgotPassword = (props) => {
   );
 };
 
-ForgotPassword.propTypes = {};
+ResetPassword.propTypes = {};
 
-export default ForgotPassword;
+export default ResetPassword;
