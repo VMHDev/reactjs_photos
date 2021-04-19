@@ -7,7 +7,7 @@ import * as Yup from 'yup';
 import InputField from 'components/InputField';
 
 const ForgotPasswordForm = (props) => {
-  const { initialValues } = props;
+  const { initialValues, onSubmit } = props;
 
   const validationSchema = Yup.object().shape({
     email: Yup.string()
@@ -19,7 +19,7 @@ const ForgotPasswordForm = (props) => {
     <Formik
       initialValues={initialValues}
       validationSchema={validationSchema}
-      onSubmit={props.onSubmit}>
+      onSubmit={onSubmit}>
       {(formikProps) => {
         const { values, errors, touched } = formikProps;
         console.log({ values, errors, touched });
@@ -46,10 +46,12 @@ const ForgotPasswordForm = (props) => {
 };
 
 ForgotPasswordForm.propTypes = {
+  initialValues: PropTypes.object,
   onSubmit: PropTypes.func,
 };
 
 ForgotPasswordForm.defaultProps = {
+  initialValues: {},
   onSubmit: null,
 };
 

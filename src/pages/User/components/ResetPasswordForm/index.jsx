@@ -10,10 +10,6 @@ const ResetPasswordForm = (props) => {
   const { initialValues, onSubmit } = props;
 
   const validationSchema = Yup.object().shape({
-    email: Yup.string()
-      .required('This field is required.')
-      .email('This field is invalid email'),
-
     password: Yup.string()
       .required('This field is required.')
       .min(6, 'Min length 6 character')
@@ -30,18 +26,8 @@ const ResetPasswordForm = (props) => {
       validationSchema={validationSchema}
       onSubmit={onSubmit}>
       {(formikProps) => {
-        const { values, errors, touched } = formikProps;
-        console.log({ values, errors, touched });
-
         return (
           <Form>
-            <FastField
-              name='Your email'
-              component={InputField}
-              label='Email'
-              placeholder='your-email@mail.com'
-            />
-
             <FastField
               name='password'
               component={InputField}
@@ -71,10 +57,12 @@ const ResetPasswordForm = (props) => {
 };
 
 ResetPasswordForm.propTypes = {
+  initialValues: PropTypes.object,
   onSubmit: PropTypes.func,
 };
 
 ResetPasswordForm.defaultProps = {
+  initialValues: {},
   onSubmit: null,
 };
 

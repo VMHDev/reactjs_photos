@@ -7,7 +7,7 @@ import * as Yup from 'yup';
 import InputField from 'components/InputField';
 
 const RegisterForm = (props) => {
-  const { initialValues } = props;
+  const { initialValues, onSubmit } = props;
 
   const validationSchema = Yup.object().shape({
     name: Yup.string().required('This field is required.'),
@@ -30,11 +30,8 @@ const RegisterForm = (props) => {
     <Formik
       initialValues={initialValues}
       validationSchema={validationSchema}
-      onSubmit={props.onSubmit}>
-      {(formikProps) => {
-        const { values, errors, touched } = formikProps;
-        console.log({ values, errors, touched });
-
+      onSubmit={onSubmit}>
+      {() => {
         return (
           <Form>
             <FastField
@@ -80,10 +77,12 @@ const RegisterForm = (props) => {
 };
 
 RegisterForm.propTypes = {
+  initialValues: PropTypes.object,
   onSubmit: PropTypes.func,
 };
 
 RegisterForm.defaultProps = {
+  initialValues: {},
   onSubmit: null,
 };
 

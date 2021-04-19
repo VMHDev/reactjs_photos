@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory, useParams } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
-import { v4 as uuidv4 } from 'uuid';
 import { Base64 } from 'js-base64';
 import moment from 'moment';
 
@@ -26,7 +25,6 @@ const ResetPassword = (props) => {
 
   const [isTokenValid, setIsTokenValid] = useState(true);
 
-  console.log('token', token);
   useEffect(() => {
     // Check token valid
     const tokenFound = tokens.find((item) => item.token === token);
@@ -37,7 +35,6 @@ const ResetPassword = (props) => {
       )
         .add(PASSWORD_TOKEN_EXPIRE, 'm')
         .toDate();
-      console.log('dateRegister', dateRegister);
       if (dateRegister < Date.now()) {
         setIsTokenValid(false);
       }
@@ -47,9 +44,6 @@ const ResetPassword = (props) => {
   }, [tokens, token]);
 
   const initialValues = {
-    id: uuidv4(),
-    name: '',
-    email: '',
     password: '',
     confirmPassword: '',
   };

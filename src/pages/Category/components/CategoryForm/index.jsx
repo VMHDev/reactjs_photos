@@ -6,7 +6,7 @@ import InputField from 'components/InputField';
 import * as Yup from 'yup';
 
 const CategoryForm = (props) => {
-  const { initialValues, isAddMode } = props;
+  const { initialValues, isAddMode, onSubmit } = props;
 
   const validationSchema = Yup.object().shape({
     name: Yup.string().required('This field is required.'),
@@ -16,7 +16,7 @@ const CategoryForm = (props) => {
     <Formik
       initialValues={initialValues}
       validationSchema={validationSchema}
-      onSubmit={props.onSubmit}>
+      onSubmit={onSubmit}>
       {(formikProps) => {
         const { values, errors, touched, isSubmitting } = formikProps;
         console.log({ values, errors, touched });
@@ -52,10 +52,14 @@ const CategoryForm = (props) => {
 };
 
 CategoryForm.propTypes = {
+  initialValues: PropTypes.object,
+  isAddMode: PropTypes.bool,
   onSubmit: PropTypes.func,
 };
 
 CategoryForm.defaultProps = {
+  initialValues: {},
+  isAddMode: true,
   onSubmit: null,
 };
 
