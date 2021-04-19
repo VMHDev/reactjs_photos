@@ -3,6 +3,7 @@ import { useHistory, useParams } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 import { Base64 } from 'js-base64';
+import moment from 'moment';
 
 import { addUser } from 'redux/userSlice';
 import ResetPasswordForm from 'pages/User/components/ResetPasswordForm';
@@ -12,6 +13,7 @@ import NotFound from 'components/NotFound';
 // Constants
 import Images from 'constants/images';
 import { PATH_USER_LOGIN } from 'constants/route';
+import { PASSWORD_TOKEN_EXPIRE } from 'constants/system';
 
 // Styles
 import './styles.scss';
@@ -22,14 +24,25 @@ const ResetPassword = (props) => {
   const history = useHistory();
   const { token } = useParams();
 
-  const [isTokenValid, setIsTokenValid] = useState(false);
+  const [isTokenValid, setIsTokenValid] = useState(true);
 
   console.log('token', token);
   useEffect(() => {
     // Check token valid
     const tokenFound = tokens.find((item) => item.token === token);
     if (tokenFound) {
-      setIsTokenValid(true);
+      const dateRegister = moment(
+        tokenFound.registered_date,
+        'YYYY-MM-DD HH:mm:ss'
+      )
+        .add(PASSWORD_TOKEN_EXPIRE, 'm')
+        .toDate();
+      console.log('dateRegister', dateRegister);
+      if (dateRegister < Date.now()) {
+        setIsTokenValid(false);
+      }
+    } else {
+      setIsTokenValid(false);
     }
   }, [tokens, token]);
 
