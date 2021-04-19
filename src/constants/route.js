@@ -8,6 +8,7 @@ export const PATH_USER = '/user/';
 export const PATH_USER_LOGIN = '/user/login/';
 export const PATH_USER_REGISTER = '/user/register/';
 export const PATH_USER_FORGOTPASSWORD = '/user/forgotpassword/';
+export const PATH_USER_RESETPASSWORD = '/user/resetpassword/';
 
 export const PATH_LOGIN = '/login/';
 export const PATH_REGISTER = '/register/';

@@ -37,7 +37,6 @@ const User = React.lazy(() => import('./pages/User/User'));
 // Main
 function App() {
   const dispatch = useDispatch();
-
   // Handle events
   const handleLogoutClick = async () => {
     try {

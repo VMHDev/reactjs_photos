@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { NavLink } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 import moment from 'moment';
@@ -10,7 +11,8 @@ import Banner from 'components/Banner';
 
 // Constants
 import Images from 'constants/images';
-import { PASSWORD_RESET_TOKEN_LENGTH } from 'constants/system';
+import { PASSWORD_RESET_TOKEN_LENGTH, WEB_URL } from 'constants/system';
+import { PATH_USER_RESETPASSWORD } from 'constants/route';
 
 // Styles
 import './styles.scss';
@@ -22,6 +24,8 @@ const ForgotPassword = (props) => {
   const initialValues = {
     email: '',
   };
+  const [isSubmited, setIsSubmitted] = useState(false);
+  const [token, setToken] = useState(false);
 
   // Handle events
   const handleSubmit = async (values) => {
@@ -31,7 +35,7 @@ const ForgotPassword = (props) => {
         length: PASSWORD_RESET_TOKEN_LENGTH,
         type: 'base64',
       });
-      const token = userFound.id + '-' + randomString;
+      setToken(userFound.id + '-' + randomString);
       const objToken = {
         id: uuidv4(),
         user_id: userFound.id,
@@ -41,10 +45,9 @@ const ForgotPassword = (props) => {
       };
       const action = addToken(objToken);
       await dispatch(action);
-      return true;
+      setIsSubmitted(true);
     } catch (error) {
       console.log(error);
-      return false;
     }
   };
 
@@ -56,6 +59,16 @@ const ForgotPassword = (props) => {
           initialValues={initialValues}
           onSubmit={handleSubmit}
         />
+        {isSubmited ? (
+          <>
+            <span>Step next click link: </span>
+            <NavLink to={PATH_USER_RESETPASSWORD + token}>
+              {WEB_URL + PATH_USER_RESETPASSWORD + token}
+            </NavLink>
+          </>
+        ) : (
+          <></>
+        )}
       </div>
     </div>
   );

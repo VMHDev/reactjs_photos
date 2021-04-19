@@ -34,7 +34,10 @@ const User = (props) => {
         path={match.url + PATH_FORGOTPASSWORD}
         component={ForgotPassword}
       />
-      <Route path={match.url + PATH_RESETPASSWORD} component={ResetPassword} />
+      <Route
+        path={`${match.url + PATH_RESETPASSWORD}:token`}
+        component={ResetPassword}
+      />
     </Switch>
   );
 };
