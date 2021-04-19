@@ -1,41 +1,46 @@
 import React from 'react';
-import { useHistory } from 'react-router';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
-import { Base64 } from 'js-base64';
+import moment from 'moment';
+import cryptoRandomString from 'crypto-random-string';
 
-import { addUser } from 'redux/userSlice';
+import { addToken } from 'redux/userTokenSlice';
 import ForgotPasswordForm from 'pages/User/components/ForgotPasswordForm';
 import Banner from 'components/Banner';
 
 // Constants
 import Images from 'constants/images';
-import { PATH_USER_LOGIN } from 'constants/route';
+import { PASSWORD_RESET_TOKEN_LENGTH } from 'constants/system';
 
 // Styles
 import './styles.scss';
 
 const ForgotPassword = (props) => {
+  const users = useSelector((state) => state.users.data);
   const dispatch = useDispatch();
-  const history = useHistory();
 
   const initialValues = {
-    id: uuidv4(),
-    name: '',
     email: '',
-    password: '',
-    confirmPassword: '',
   };
 
   // Handle events
   const handleSubmit = async (values) => {
     try {
-      let objUser = { ...values };
-      delete objUser.confirmPassword;
-      objUser.password = Base64.encode(objUser.password);
-      const action = addUser(objUser);
+      const userFound = users.find((user) => user.email === values.email);
+      const randomString = cryptoRandomString({
+        length: PASSWORD_RESET_TOKEN_LENGTH,
+        type: 'base64',
+      });
+      const token = userFound.id + '-' + randomString;
+      const objToken = {
+        id: uuidv4(),
+        user_id: userFound.id,
+        token,
+        delete_flg: false,
+        registered_date: moment().format('YYYY-MM-DD HH:mm:ss'),
+      };
+      const action = addToken(objToken);
       await dispatch(action);
-      history.push(PATH_USER_LOGIN);
       return true;
     } catch (error) {
       console.log(error);
