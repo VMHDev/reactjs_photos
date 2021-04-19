@@ -43,12 +43,12 @@ const AddEditPage = (props) => {
       if (isAddMode) {
         const action = addPhoto(values);
         console.log({ action });
-        await dispatch(action);
+        dispatch(action);
         await timeout(1000);
       } else {
         const action = updatePhoto(values);
         console.log({ action });
-        await dispatch(action);
+        dispatch(action);
         await timeout(1000);
       }
       setIsShow(false);

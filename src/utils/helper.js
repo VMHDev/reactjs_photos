@@ -1,6 +1,5 @@
 // Appending data to a localStorage() array
 const addToLocalStorageArray = (key, value) => {
-  console.log('key - value', key, value);
   // Get the existing data
   let existing = localStorage.getItem(key);
 

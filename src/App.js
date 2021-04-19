@@ -38,10 +38,10 @@ const User = React.lazy(() => import('./pages/User/User'));
 function App() {
   const dispatch = useDispatch();
   // Handle events
-  const handleLogoutClick = async () => {
+  const handleLogoutClick = () => {
     try {
       const action = updateStatusLogin('');
-      await dispatch(action);
+      dispatch(action);
       return <Redirect to={PATH_HOME} />;
     } catch (error) {
       alert('Logout Fail!');

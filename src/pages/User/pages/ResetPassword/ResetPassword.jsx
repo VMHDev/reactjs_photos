@@ -1,12 +1,13 @@
-import React from 'react';
-import { useHistory } from 'react-router';
-import { useDispatch } from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import { useHistory, useParams } from 'react-router';
+import { useDispatch, useSelector } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 import { Base64 } from 'js-base64';
 
 import { addUser } from 'redux/userSlice';
 import ResetPasswordForm from 'pages/User/components/ResetPasswordForm';
 import Banner from 'components/Banner';
+import NotFound from 'components/NotFound';
 
 // Constants
 import Images from 'constants/images';
@@ -16,8 +17,21 @@ import { PATH_USER_LOGIN } from 'constants/route';
 import './styles.scss';
 
 const ResetPassword = (props) => {
+  const tokens = useSelector((state) => state.user_tokens);
   const dispatch = useDispatch();
   const history = useHistory();
+  const { token } = useParams();
+
+  const [isTokenValid, setIsTokenValid] = useState(false);
+
+  console.log('token', token);
+  useEffect(() => {
+    // Check token valid
+    const tokenFound = tokens.find((item) => item.token === token);
+    if (tokenFound) {
+      setIsTokenValid(true);
+    }
+  }, [tokens, token]);
 
   const initialValues = {
     id: uuidv4(),
@@ -28,13 +42,13 @@ const ResetPassword = (props) => {
   };
 
   // Handle events
-  const handleSubmit = async (values) => {
+  const handleSubmit = (values) => {
     try {
       let objUser = { ...values };
       delete objUser.confirmPassword;
       objUser.password = Base64.encode(objUser.password);
       const action = addUser(objUser);
-      await dispatch(action);
+      dispatch(action);
       history.push(PATH_USER_LOGIN);
       return true;
     } catch (error) {
@@ -43,7 +57,7 @@ const ResetPassword = (props) => {
     }
   };
 
-  return (
+  return isTokenValid ? (
     <div className='reset-password'>
       <Banner title='Reset Password 🔥' backgroundUrl={Images.BRIDGE2_BG} />
       <div className='reset-password__form'>
@@ -53,6 +67,8 @@ const ResetPassword = (props) => {
         />
       </div>
     </div>
+  ) : (
+    <NotFound />
   );
 };
 

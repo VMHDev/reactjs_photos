@@ -39,7 +39,7 @@ const LoginPage = (props) => {
       );
       if (userFound) {
         const action = updateStatusLogin(userFound.id);
-        await dispatch(action);
+        dispatch(action);
         await timeout(1000);
         setIsShow(false);
         history.push(PATH_HOME);
