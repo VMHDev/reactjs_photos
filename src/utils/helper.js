@@ -14,4 +14,9 @@ const addToLocalStorageArray = (key, value) => {
   localStorage.setItem(key, JSON.stringify(arr));
 };
 
-export { addToLocalStorageArray };
+// Set delay time
+const timeout = (ms) => {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+};
+
+export { addToLocalStorageArray, timeout };

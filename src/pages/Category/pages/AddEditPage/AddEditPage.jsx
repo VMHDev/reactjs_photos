@@ -1,10 +1,14 @@
 import React from 'react';
-import Banner from 'components/Banner';
-import CategoryForm from 'pages/Category/components/CategoryForm';
-import './styles.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { addCategory, updateCategory } from 'redux/categorySlice';
 import { useHistory, useParams } from 'react-router';
+
+import Banner from 'components/Banner';
+import CategoryForm from 'pages/Category/components/CategoryForm';
+
+import { PATH_CATEGORIES } from 'constants/route';
+
+import './styles.scss';
 
 const AddEditPage = (props) => {
   const dispatch = useDispatch();
@@ -37,19 +41,17 @@ const AddEditPage = (props) => {
       }
     : editedCategory;
 
-  const handleSubmit = async (values) => {
+  const handleSubmit = (values) => {
     try {
       console.log('Form submit: ', values);
       if (isAddMode) {
         const action = addCategory(values);
-        console.log({ action });
         dispatch(action);
       } else {
         const action = updateCategory(values);
-        console.log({ action });
         dispatch(action);
       }
-      history.push('/categories');
+      history.push(PATH_CATEGORIES);
       return true;
     } catch (error) {
       console.log(error);

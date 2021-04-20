@@ -12,7 +12,6 @@ const LoadDataCategories = () => {
   const categories = useSelector((state) => state.categories);
   let categoriesOption = [];
   for (let item of categories) {
-    console.log(item);
     const itemOptions = {
       value: item.id,
       label: item.name,
@@ -23,7 +22,7 @@ const LoadDataCategories = () => {
 };
 
 const PhotoForm = (props) => {
-  const { initialValues, isAddMode } = props;
+  const { initialValues, isAddMode, onSubmit } = props;
 
   const categoriesOption = LoadDataCategories();
 
@@ -47,9 +46,8 @@ const PhotoForm = (props) => {
     <Formik
       initialValues={initialValues}
       validationSchema={validationSchema}
-      onSubmit={props.onSubmit}>
+      onSubmit={onSubmit}>
       {(formikProps) => {
-        // do something here ...
         const { values, errors, touched, isSubmitting } = formikProps;
         console.log({ values, errors, touched });
 
@@ -90,10 +88,14 @@ const PhotoForm = (props) => {
 };
 
 PhotoForm.propTypes = {
+  initialValues: PropTypes.object,
+  isAddMode: PropTypes.bool,
   onSubmit: PropTypes.func,
 };
 
 PhotoForm.defaultProps = {
+  initialValues: {},
+  isAddMode: true,
   onSubmit: null,
 };
 

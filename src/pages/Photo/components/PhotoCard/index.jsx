@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'reactstrap';
-import './PhotoCard.scss';
+import './styles.scss';
 
 const PhotoCard = (props) => {
   const { photo, onEditClick, onRemoveClick } = props;
