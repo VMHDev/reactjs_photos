@@ -28,13 +28,13 @@ const Register = (props) => {
   };
 
   // Handle events
-  const handleSubmit = async (values) => {
+  const handleSubmit = (values) => {
     try {
       let objUser = { ...values };
       delete objUser.confirmPassword;
       objUser.password = Base64.encode(objUser.password);
       const action = addUser(objUser);
-      await dispatch(action);
+      dispatch(action);
       history.push(PATH_USER_LOGIN);
       return true;
     } catch (error) {

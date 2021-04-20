@@ -12,7 +12,7 @@ import { PATH_USER_REGISTER, PATH_USER_FORGOTPASSWORD } from 'constants/route';
 
 // Main
 const LoginForm = (props) => {
-  const { initialValues } = props;
+  const { initialValues, onSubmit } = props;
 
   const validationSchema = Yup.object().shape({
     email: Yup.string()
@@ -29,7 +29,7 @@ const LoginForm = (props) => {
     <Formik
       initialValues={initialValues}
       validationSchema={validationSchema}
-      onSubmit={props.onSubmit}>
+      onSubmit={onSubmit}>
       {(formikProps) => {
         const { values, errors, touched } = formikProps;
         console.log({ values, errors, touched });
@@ -81,10 +81,12 @@ const LoginForm = (props) => {
 };
 
 LoginForm.propTypes = {
+  initialValues: PropTypes.object,
   onSubmit: PropTypes.func,
 };
 
 LoginForm.defaultProps = {
+  initialValues: {},
   onSubmit: null,
 };
 

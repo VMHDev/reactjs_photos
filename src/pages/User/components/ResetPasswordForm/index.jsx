@@ -6,16 +6,10 @@ import * as Yup from 'yup';
 
 import InputField from 'components/InputField';
 
-const RegisterForm = (props) => {
+const ResetPasswordForm = (props) => {
   const { initialValues, onSubmit } = props;
 
   const validationSchema = Yup.object().shape({
-    name: Yup.string().required('This field is required.'),
-
-    email: Yup.string()
-      .required('This field is required.')
-      .email('This field is invalid email'),
-
     password: Yup.string()
       .required('This field is required.')
       .min(6, 'Min length 6 character')
@@ -31,27 +25,13 @@ const RegisterForm = (props) => {
       initialValues={initialValues}
       validationSchema={validationSchema}
       onSubmit={onSubmit}>
-      {() => {
+      {(formikProps) => {
         return (
           <Form>
             <FastField
-              name='name'
-              component={InputField}
-              label='Name'
-              placeholder='Harry Potter'
-            />
-
-            <FastField
-              name='email'
-              component={InputField}
-              label='Email'
-              placeholder='your-email@mail.com'
-            />
-
-            <FastField
               name='password'
               component={InputField}
-              label='Password'
+              label='New Password'
               placeholder='********'
               type='password'
             />
@@ -66,7 +46,7 @@ const RegisterForm = (props) => {
 
             <FormGroup>
               <Button type='submit' color='primary'>
-                Register
+                Submit
               </Button>
             </FormGroup>
           </Form>
@@ -76,14 +56,14 @@ const RegisterForm = (props) => {
   );
 };
 
-RegisterForm.propTypes = {
+ResetPasswordForm.propTypes = {
   initialValues: PropTypes.object,
   onSubmit: PropTypes.func,
 };
 
-RegisterForm.defaultProps = {
+ResetPasswordForm.defaultProps = {
   initialValues: {},
   onSubmit: null,
 };
 
-export default RegisterForm;
+export default ResetPasswordForm;

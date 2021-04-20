@@ -6,12 +6,19 @@ import {
   PATH_LOGIN,
   PATH_REGISTER,
   PATH_FORGOTPASSWORD,
+  PATH_RESETPASSWORD,
+  PATH_NOTFOUND,
 } from '../../constants/route';
 
 // Lazy load Components page
 const Login = React.lazy(() => import('./pages/Login/Login'));
 const Register = React.lazy(() => import('./pages/Register/Register'));
-const ForgotPassword = React.lazy(() => import('./pages/ForgotPassword/ForgotPassword'));
+const ForgotPassword = React.lazy(() =>
+  import('./pages/ForgotPassword/ForgotPassword')
+);
+const ResetPassword = React.lazy(() =>
+  import('./pages/ResetPassword/ResetPassword')
+);
 
 // Main
 const User = (props) => {
@@ -27,6 +34,15 @@ const User = (props) => {
       <Route
         path={match.url + PATH_FORGOTPASSWORD}
         component={ForgotPassword}
+      />
+      <Redirect
+        exact
+        from={match.url + PATH_RESETPASSWORD}
+        to={PATH_NOTFOUND}
+      />
+      <Route
+        path={`${match.url + PATH_RESETPASSWORD}:token`}
+        component={ResetPassword}
       />
     </Switch>
   );
