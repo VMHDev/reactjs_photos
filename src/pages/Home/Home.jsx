@@ -1,13 +1,21 @@
-import React from 'react';
-import { Container } from 'reactstrap';
+import React, { Fragment } from 'react';
+
+// Styles
+import './styles.scss';
 
 const Home = () => {
   return (
-    <div>
-      <Container className='text-center'>
-        <h1>Home Pages</h1>
-      </Container>
-    </div>
+    <Fragment>
+      <div className='hero'>
+        <div
+          className='hero hero-container'
+          data-aos='zoom-in'
+          data-aos-delay={100}>
+          <h1>Welcome to Photos App</h1>
+          <h2>Picture, image and more...</h2>
+        </div>
+      </div>
+    </Fragment>
   );
 };
 
