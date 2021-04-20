@@ -7,6 +7,7 @@ import {
   PATH_REGISTER,
   PATH_FORGOTPASSWORD,
   PATH_RESETPASSWORD,
+  PATH_NOTFOUND,
 } from '../../constants/route';
 
 // Lazy load Components page
@@ -33,6 +34,11 @@ const User = (props) => {
       <Route
         path={match.url + PATH_FORGOTPASSWORD}
         component={ForgotPassword}
+      />
+      <Redirect
+        exact
+        from={match.url + PATH_RESETPASSWORD}
+        to={PATH_NOTFOUND}
       />
       <Route
         path={`${match.url + PATH_RESETPASSWORD}:token`}

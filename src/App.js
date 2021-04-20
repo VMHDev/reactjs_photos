@@ -18,6 +18,7 @@ import {
   PATH_PHOTOS,
   PATH_CATEGORIES,
   PATH_USER,
+  PATH_NOTFOUND,
 } from './constants/route';
 
 // Styles
@@ -72,6 +73,7 @@ function App() {
             <Route path={PATH_PHOTOS} component={Photo} />
             <Route path={PATH_CATEGORIES} component={Category} />
             <Route path={PATH_USER} component={User} />
+            <Route path={PATH_NOTFOUND} component={NotFound} />
 
             <Route component={NotFound} />
           </Switch>

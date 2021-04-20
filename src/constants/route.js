@@ -3,6 +3,7 @@ export const PATH_HOME = '/home/';
 export const PATH_PHOTOS = '/photos/';
 export const PATH_CATEGORIES = '/categories/';
 export const PATH_USER = '/user/';
+export const PATH_NOTFOUND = '/404/';
 
 // USER
 export const PATH_USER_LOGIN = '/user/login/';

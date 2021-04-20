@@ -36,6 +36,17 @@ const user = createSlice({
       obj.login = action.payload;
       localStorage.setItem('users', JSON.stringify(obj));
     },
+    updateUser: (state, action) => {
+      const updateUser = action.payload;
+      const userIndex = state.data.findIndex(
+        (user) => user.id === updateUser.id
+      );
+      if (userIndex >= 0) {
+        state.data[userIndex] = updateUser;
+      }
+      // Update local storage
+      localStorage.setItem('users', JSON.stringify(state));
+    },
     addUser: (state, action) => {
       state.data.push(action.payload);
       // Update local storage
@@ -48,5 +59,5 @@ const user = createSlice({
 });
 
 const { reducer, actions } = user;
-export const { updateStatusLogin, addUser } = actions;
+export const { updateStatusLogin, addUser, updateUser } = actions;
 export default reducer;

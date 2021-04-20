@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Base64 } from 'js-base64';
 import moment from 'moment';
 
-import { addUser } from 'redux/userSlice';
+import { updateUser } from 'redux/userSlice';
 import ResetPasswordForm from 'pages/User/components/ResetPasswordForm';
 import Banner from 'components/Banner';
 import NotFound from 'components/NotFound';
@@ -19,16 +19,23 @@ import './styles.scss';
 
 const ResetPassword = (props) => {
   const tokens = useSelector((state) => state.user_tokens);
+  const users = useSelector((state) => state.users.data);
   const dispatch = useDispatch();
   const history = useHistory();
   const { token } = useParams();
 
   const [isTokenValid, setIsTokenValid] = useState(true);
+  const [user, setUser] = useState({});
 
   useEffect(() => {
     // Check token valid
     const tokenFound = tokens.find((item) => item.token === token);
     if (tokenFound) {
+      // Get info user
+      const userFound = users.find((item) => item.id === tokenFound.user_id);
+      setUser(userFound);
+
+      // Check token expire
       const dateRegister = moment(
         tokenFound.registered_date,
         'YYYY-MM-DD HH:mm:ss'
@@ -41,7 +48,7 @@ const ResetPassword = (props) => {
     } else {
       setIsTokenValid(false);
     }
-  }, [tokens, token]);
+  }, [tokens, token, users]);
 
   const initialValues = {
     password: '',
@@ -51,16 +58,15 @@ const ResetPassword = (props) => {
   // Handle events
   const handleSubmit = (values) => {
     try {
-      let objUser = { ...values };
+      let objUser = { ...user, ...values };
       delete objUser.confirmPassword;
       objUser.password = Base64.encode(objUser.password);
-      const action = addUser(objUser);
+      console.log('objUser', objUser);
+      const action = updateUser(objUser);
       dispatch(action);
       history.push(PATH_USER_LOGIN);
-      return true;
     } catch (error) {
       console.log(error);
-      return false;
     }
   };
 
