@@ -25,9 +25,17 @@ const ResetPasswordForm = (props) => {
       initialValues={initialValues}
       validationSchema={validationSchema}
       onSubmit={onSubmit}>
-      {(formikProps) => {
+      {() => {
         return (
           <Form>
+            <FastField
+              name='email'
+              component={InputField}
+              label='Email'
+              placeholder='your-email@mail.com'
+              disabled
+            />
+
             <FastField
               name='password'
               component={InputField}

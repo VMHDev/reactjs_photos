@@ -51,6 +51,7 @@ const ResetPassword = (props) => {
   }, [tokens, token, users]);
 
   const initialValues = {
+    email: props.location.state.email,
     password: '',
     confirmPassword: '',
   };
@@ -61,7 +62,6 @@ const ResetPassword = (props) => {
       let objUser = { ...user, ...values };
       delete objUser.confirmPassword;
       objUser.password = Base64.encode(objUser.password);
-      console.log('objUser', objUser);
       const action = updateUser(objUser);
       dispatch(action);
       history.push(PATH_USER_LOGIN);

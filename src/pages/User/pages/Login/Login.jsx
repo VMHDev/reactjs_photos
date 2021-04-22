@@ -11,7 +11,13 @@ import { timeout } from 'utils/helper';
 
 // Constants
 import Images from 'constants/images';
-import { PATH_HOME, PATH_PHOTOS, PATH_CATEGORIES } from 'constants/route';
+import {
+  PATH_HOME,
+  PATH_PHOTOS,
+  PATH_CATEGORIES,
+  PATH_PHOTOS_ADD,
+  PATH_CATEGORIES_ADD,
+} from 'constants/route';
 
 // Styles
 import './styles.scss';
@@ -47,13 +53,17 @@ const LoginPage = (props) => {
         switch (type) {
           case 'Photo_Remove':
           case 'Photo_Edit':
-          case 'Photo_Add':
             history.push(PATH_PHOTOS);
+            break;
+          case 'Photo_Add':
+            history.push(PATH_PHOTOS_ADD);
             break;
           case 'Category_Remove':
           case 'Category_Edit':
-          case 'Category_Add':
             history.push(PATH_CATEGORIES);
+            break;
+          case 'Category_Add':
+            history.push(PATH_CATEGORIES_ADD);
             break;
           default:
             history.push(PATH_HOME);

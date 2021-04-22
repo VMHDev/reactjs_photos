@@ -20,10 +20,7 @@ const ForgotPasswordForm = (props) => {
       initialValues={initialValues}
       validationSchema={validationSchema}
       onSubmit={onSubmit}>
-      {(formikProps) => {
-        const { values, errors, touched } = formikProps;
-        console.log({ values, errors, touched });
-
+      {() => {
         return (
           <Form>
             <FastField
