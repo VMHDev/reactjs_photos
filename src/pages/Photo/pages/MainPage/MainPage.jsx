@@ -22,7 +22,10 @@ const MainPage = (props) => {
     if (loginID) {
       history.push(PATH_PHOTOS + photo.id);
     } else {
-      history.push(PATH_USER_LOGIN);
+      history.push({
+        pathname: PATH_USER_LOGIN,
+        state: { type: 'Photo_Edit' },
+      });
     }
   };
 
@@ -32,7 +35,10 @@ const MainPage = (props) => {
       const action = removePhoto(removePhotoId);
       dispatch(action);
     } else {
-      history.push(PATH_USER_LOGIN);
+      history.push({
+        pathname: PATH_USER_LOGIN,
+        state: { type: 'Photo_Remove' },
+      });
     }
   };
 
@@ -43,6 +49,8 @@ const MainPage = (props) => {
   const [tooltipOpen, setTooltipOpen] = useState(false);
   const toggle = () => setTooltipOpen(!tooltipOpen);
 
+  const pathAdd = loginID ? PATH_PHOTOS_ADD : PATH_USER_LOGIN;
+
   return (
     <div className='photo-main'>
       <Banner title='My photos 🎉' backgroundUrl={Images.BLUE_BG} />
@@ -50,7 +58,10 @@ const MainPage = (props) => {
       <Container className='text-center'>
         <div className='py-5 text-right'>
           <Link
-            to={loginID ? PATH_PHOTOS_ADD : PATH_USER_LOGIN}
+            to={{
+              pathname: pathAdd,
+              state: { type: 'Photo_Add' },
+            }}
             id='AddNewPhoto'>
             <BsPlusSquareFill style={iconStyles} />
           </Link>

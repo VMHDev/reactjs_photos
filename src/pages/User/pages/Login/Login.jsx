@@ -11,13 +11,14 @@ import { timeout } from 'utils/helper';
 
 // Constants
 import Images from 'constants/images';
-import { PATH_HOME } from 'constants/route';
+import { PATH_HOME, PATH_PHOTOS, PATH_CATEGORIES } from 'constants/route';
 
 // Styles
 import './styles.scss';
 
 // Main
 const LoginPage = (props) => {
+  console.log('props', props);
   const [isShow, setIsShow] = useState(false);
   const users = useSelector((state) => state.users.data);
   const dispatch = useDispatch();
@@ -42,7 +43,22 @@ const LoginPage = (props) => {
         dispatch(action);
         await timeout(1000);
         setIsShow(false);
-        history.push(PATH_HOME);
+        const type = props.location.state.type;
+        switch (type) {
+          case 'Photo_Remove':
+          case 'Photo_Edit':
+          case 'Photo_Add':
+            history.push(PATH_PHOTOS);
+            break;
+          case 'Category_Remove':
+          case 'Category_Edit':
+          case 'Category_Add':
+            history.push(PATH_CATEGORIES);
+            break;
+          default:
+            history.push(PATH_HOME);
+            break;
+        }
       } else {
         setIsShow(false);
         alert('Login Fail');

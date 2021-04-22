@@ -23,21 +23,29 @@ const MainPage = (props) => {
   const dispatch = useDispatch();
 
   // Hander Events
-  const handlePhotoEditClick = (category) => {
+  const handleCategoryEditClick = (category) => {
+    console.log('category', category);
     if (loginID) {
       history.push(PATH_CATEGORIES + category.id);
     } else {
-      history.push(PATH_USER_LOGIN);
+      console.log('loginID');
+      history.push({
+        pathname: PATH_USER_LOGIN,
+        state: { type: 'Category_Edit' },
+      });
     }
   };
 
-  const handlePhotoRemoveClick = (category) => {
+  const handleCategoryRemoveClick = (category) => {
     if (loginID) {
       const removePhotoId = category.id;
       const action = removeCategory(removePhotoId);
       dispatch(action);
     } else {
-      history.push(PATH_USER_LOGIN);
+      history.push({
+        pathname: PATH_USER_LOGIN,
+        state: { type: 'Category_Remove' },
+      });
     }
   };
 
@@ -48,6 +56,8 @@ const MainPage = (props) => {
   const [tooltipOpen, setTooltipOpen] = useState(false);
   const toggle = () => setTooltipOpen(!tooltipOpen);
 
+  const pathAdd = loginID ? PATH_CATEGORIES_ADD : PATH_USER_LOGIN;
+
   return (
     <div className='photo-main text-right'>
       <Banner title='List category 🎉' backgroundUrl={Images.PINK_BG} />
@@ -55,7 +65,10 @@ const MainPage = (props) => {
       <Container>
         <div className='py-5'>
           <Link
-            to={loginID ? PATH_CATEGORIES_ADD : PATH_USER_LOGIN}
+            to={{
+              pathname: pathAdd,
+              state: { type: 'Category_Add' },
+            }}
             id='AddNewCategory'>
             <BsPlusSquareFill style={iconStyles} />
           </Link>
@@ -71,8 +84,8 @@ const MainPage = (props) => {
 
         <CategoryTable
           categoryList={categories}
-          onCategoryEditClick={handlePhotoEditClick}
-          onCategoryRemoveClick={handlePhotoRemoveClick}
+          onCategoryEditClick={handleCategoryEditClick}
+          onCategoryRemoveClick={handleCategoryRemoveClick}
         />
       </Container>
     </div>
