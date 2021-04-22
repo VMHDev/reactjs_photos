@@ -15,7 +15,7 @@ const AddEditPage = (props) => {
   const history = useHistory();
   const { categoryId } = useParams();
   console.log('categoryId', categoryId);
-  const isAddMode = !categoryId;
+  const isAddMode = categoryId === 'add' || !categoryId ? true : false;
 
   const editedCategory = useSelector((state) => {
     const foundCategory = state.categories.find(

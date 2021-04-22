@@ -10,22 +10,35 @@ import Images from 'constants/images';
 import CategoryTable from 'pages/Category/components/CategoryTable';
 import { removeCategory } from 'redux/categorySlice';
 
-import { PATH_CATEGORIES } from 'constants/route';
+import {
+  PATH_CATEGORIES,
+  PATH_USER_LOGIN,
+  PATH_CATEGORIES_ADD,
+} from 'constants/route';
 
 const MainPage = (props) => {
+  const loginID = useSelector((state) => state.users.login);
   const categories = useSelector((state) => state.categories);
   const history = useHistory();
   const dispatch = useDispatch();
 
   // Hander Events
   const handlePhotoEditClick = (category) => {
-    history.push(PATH_CATEGORIES + category.id);
+    if (loginID) {
+      history.push(PATH_CATEGORIES + category.id);
+    } else {
+      history.push(PATH_USER_LOGIN);
+    }
   };
 
   const handlePhotoRemoveClick = (category) => {
-    const removePhotoId = category.id;
-    const action = removeCategory(removePhotoId);
-    dispatch(action);
+    if (loginID) {
+      const removePhotoId = category.id;
+      const action = removeCategory(removePhotoId);
+      dispatch(action);
+    } else {
+      history.push(PATH_USER_LOGIN);
+    }
   };
 
   // Render GUI
@@ -41,7 +54,9 @@ const MainPage = (props) => {
 
       <Container>
         <div className='py-5'>
-          <Link to='/categories/add' id='AddNewCategory'>
+          <Link
+            to={loginID ? PATH_CATEGORIES_ADD : PATH_USER_LOGIN}
+            id='AddNewCategory'>
             <BsPlusSquareFill style={iconStyles} />
           </Link>
           <Tooltip

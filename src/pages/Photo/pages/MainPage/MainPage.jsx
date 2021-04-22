@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link, useHistory, useRouteMatch } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { Container, Tooltip } from 'reactstrap';
 import { BsPlusSquareFill } from 'react-icons/bs';
 
@@ -9,7 +9,7 @@ import Images from 'constants/images';
 import PhotoList from 'pages/Photo/components/PhotoList';
 import { removePhoto } from 'redux/photoSlice';
 
-import { PATH_PHOTOS, PATH_PHOTO_ADD, PATH_USER_LOGIN } from 'constants/route';
+import { PATH_PHOTOS, PATH_PHOTOS_ADD, PATH_USER_LOGIN } from 'constants/route';
 
 const MainPage = (props) => {
   const photos = useSelector((state) => state.photos);
@@ -43,7 +43,6 @@ const MainPage = (props) => {
   const [tooltipOpen, setTooltipOpen] = useState(false);
   const toggle = () => setTooltipOpen(!tooltipOpen);
 
-  const match = useRouteMatch();
   return (
     <div className='photo-main'>
       <Banner title='My photos 🎉' backgroundUrl={Images.BLUE_BG} />
@@ -51,7 +50,7 @@ const MainPage = (props) => {
       <Container className='text-center'>
         <div className='py-5 text-right'>
           <Link
-            to={loginID ? match.url + PATH_PHOTO_ADD : PATH_USER_LOGIN}
+            to={loginID ? PATH_PHOTOS_ADD : PATH_USER_LOGIN}
             id='AddNewPhoto'>
             <BsPlusSquareFill style={iconStyles} />
           </Link>
