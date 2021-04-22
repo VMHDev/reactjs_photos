@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useHistory, useRouteMatch } from 'react-router-dom';
 import { Container, Tooltip } from 'reactstrap';
 import { BsPlusSquareFill } from 'react-icons/bs';
 
@@ -9,23 +9,31 @@ import Images from 'constants/images';
 import PhotoList from 'pages/Photo/components/PhotoList';
 import { removePhoto } from 'redux/photoSlice';
 
-import { PATH_PHOTOS } from 'constants/route';
+import { PATH_PHOTOS, PATH_PHOTO_ADD, PATH_USER_LOGIN } from 'constants/route';
 
 const MainPage = (props) => {
-  const dispatch = useDispatch();
   const photos = useSelector((state) => state.photos);
+  const loginID = useSelector((state) => state.users.login);
+  const dispatch = useDispatch();
   const history = useHistory();
 
   // Hander Events
   const handlePhotoEditClick = (photo) => {
-    history.push(PATH_PHOTOS + photo.id);
+    if (loginID) {
+      history.push(PATH_PHOTOS + photo.id);
+    } else {
+      history.push(PATH_USER_LOGIN);
+    }
   };
 
   const handlePhotoRemoveClick = (photo) => {
-    console.log('Remove: ', photo);
-    const removePhotoId = photo.id;
-    const action = removePhoto(removePhotoId);
-    dispatch(action);
+    if (loginID) {
+      const removePhotoId = photo.id;
+      const action = removePhoto(removePhotoId);
+      dispatch(action);
+    } else {
+      history.push(PATH_USER_LOGIN);
+    }
   };
 
   // Render GUI
@@ -35,13 +43,16 @@ const MainPage = (props) => {
   const [tooltipOpen, setTooltipOpen] = useState(false);
   const toggle = () => setTooltipOpen(!tooltipOpen);
 
+  const match = useRouteMatch();
   return (
     <div className='photo-main'>
       <Banner title='My photos 🎉' backgroundUrl={Images.BLUE_BG} />
 
       <Container className='text-center'>
         <div className='py-5 text-right'>
-          <Link to='/photos/add' id='AddNewPhoto'>
+          <Link
+            to={loginID ? match.url + PATH_PHOTO_ADD : PATH_USER_LOGIN}
+            id='AddNewPhoto'>
             <BsPlusSquareFill style={iconStyles} />
           </Link>
           <Tooltip

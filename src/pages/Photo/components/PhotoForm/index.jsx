@@ -77,7 +77,7 @@ const PhotoForm = (props) => {
             <FormGroup>
               <Button type='submit' color={isAddMode ? 'primary' : 'success'}>
                 {isSubmitting && <Spinner size='sm' />}
-                {isAddMode ? 'Add to album' : 'Update your photo'}
+                {isAddMode ? 'Add' : 'Update'}
               </Button>
             </FormGroup>
           </Form>
