@@ -4,7 +4,7 @@ import { Route, Switch, useRouteMatch } from 'react-router-dom';
 import NotFound from '../../components/NotFound';
 
 // Constants
-import { PATH_CATEGOTY_ADD } from "../../constants/route"
+import { PATH_CATEGORY_ADD } from '../../constants/route';
 
 // Lazy load Components page
 const AddEditPage = React.lazy(() => import('./pages/AddEditPage/AddEditPage'));
@@ -18,7 +18,7 @@ const Category = (props) => {
     <Switch>
       <Route exact path={match.url} component={MainPage} />
 
-      <Route path={match.url + PATH_CATEGOTY_ADD} component={AddEditPage} />
+      <Route path={match.url + PATH_CATEGORY_ADD} component={AddEditPage} />
       <Route path={`${match.url}/:categoryId`} component={AddEditPage} />
 
       <Route component={NotFound} />

@@ -19,7 +19,7 @@ const AddEditPage = (props) => {
   const history = useHistory();
   const { photoId } = useParams();
 
-  const isAddMode = !photoId;
+  const isAddMode = photoId === 'add' || !photoId ? true : false;
 
   const editedPhoto = useSelector((state) => {
     const foundPhoto = state.photos.find((x) => x.id === photoId);

@@ -18,6 +18,8 @@ export const PATH_RESETPASSWORD = '/resetpassword/';
 
 // PHOTO
 export const PATH_PHOTO_ADD = '/add/';
+export const PATH_PHOTOS_ADD = '/photos/add/';
 
 // CATEGOTY
-export const PATH_CATEGOTY_ADD = '/add/';
+export const PATH_CATEGORY_ADD = '/add/';
+export const PATH_CATEGORIES_ADD = '/categories/add/';
