@@ -7,7 +7,7 @@ import * as Yup from 'yup';
 import InputField from 'components/InputField';
 
 const RegisterForm = (props) => {
-  const { initialValues, onSubmit, typePage } = props;
+  const { initialValues, onSubmit } = props;
 
   const validationSchema = Yup.object().shape({
     name: Yup.string().required('This field is required.'),
@@ -46,7 +46,6 @@ const RegisterForm = (props) => {
               component={InputField}
               label='Email'
               placeholder='your-email@mail.com'
-              disabled={typePage === 'Register_Page' ? false : true}
             />
 
             <FastField
@@ -67,7 +66,7 @@ const RegisterForm = (props) => {
 
             <FormGroup>
               <Button type='submit' color='primary'>
-                {typePage === 'Register_Page' ? 'Register' : 'Update'}
+                Register
               </Button>
             </FormGroup>
           </Form>
@@ -80,13 +79,11 @@ const RegisterForm = (props) => {
 RegisterForm.propTypes = {
   initialValues: PropTypes.object,
   onSubmit: PropTypes.func,
-  typePage: PropTypes.string,
 };
 
 RegisterForm.defaultProps = {
   initialValues: {},
   onSubmit: null,
-  typePage: 'Register_Page',
 };
 
 export default RegisterForm;

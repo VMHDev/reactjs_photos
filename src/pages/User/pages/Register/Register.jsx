@@ -47,11 +47,7 @@ const Register = (props) => {
     <div className='register'>
       <Banner title='Register 🔥' backgroundUrl={Images.BRIDGE2_BG} />
       <div className='register__form'>
-        <RegisterForm
-          initialValues={initialValues}
-          onSubmit={handleSubmit}
-          typePage='Register_Page'
-        />
+        <RegisterForm initialValues={initialValues} onSubmit={handleSubmit} />
       </div>
     </div>
   );
