@@ -5,6 +5,7 @@ import { Route, Switch, Redirect, useRouteMatch } from 'react-router-dom';
 import {
   PATH_LOGIN,
   PATH_REGISTER,
+  PATH_ACCOUNT,
   PATH_FORGOTPASSWORD,
   PATH_RESETPASSWORD,
   PATH_NOTFOUND,
@@ -13,6 +14,7 @@ import {
 // Lazy load Components page
 const Login = React.lazy(() => import('./pages/Login/Login'));
 const Register = React.lazy(() => import('./pages/Register/Register'));
+const Account = React.lazy(() => import('./pages/Account/Account'));
 const ForgotPassword = React.lazy(() =>
   import('./pages/ForgotPassword/ForgotPassword')
 );
@@ -31,6 +33,7 @@ const User = (props) => {
       </Route>
       <Route path={match.url + PATH_LOGIN} component={Login} />
       <Route path={match.url + PATH_REGISTER} component={Register} />
+      <Route path={match.url + PATH_ACCOUNT} component={Account} />
       <Route
         path={match.url + PATH_FORGOTPASSWORD}
         component={ForgotPassword}
