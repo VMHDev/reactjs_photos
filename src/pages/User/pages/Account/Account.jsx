@@ -47,7 +47,11 @@ const Account = (props) => {
     <div className='account'>
       <Banner title='Account 🔥' backgroundUrl={Images.rainBackground} />
       <div className='account__form'>
-        <RegisterForm initialValues={initialValues} onSubmit={handleSubmit} />
+        <RegisterForm
+          initialValues={initialValues}
+          onSubmit={handleSubmit}
+          typePage='Account_Page'
+        />
       </div>
     </div>
   );
