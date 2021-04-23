@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 import { Base64 } from 'js-base64';
 
 import { addUser } from 'redux/userSlice';
+import { UserContext } from 'contexts/UserContext';
 import RegisterForm from 'pages/User/components/RegisterForm';
 import Banner from 'components/Banner';
 
@@ -19,10 +20,13 @@ const Account = (props) => {
   const dispatch = useDispatch();
   const history = useHistory();
 
+  const { userLogin } = useContext(UserContext);
+  console.log('userLogin', userLogin);
+
   const initialValues = {
     id: uuidv4(),
-    name: '',
-    email: '',
+    name: userLogin?.name,
+    email: userLogin?.email,
     password: '',
     confirmPassword: '',
   };
