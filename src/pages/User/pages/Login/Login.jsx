@@ -1,10 +1,9 @@
-import React, { Fragment, useState, useContext } from 'react';
+import React, { Fragment, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { Base64 } from 'js-base64';
 
 import { updateStatusLogin } from 'redux/userSlice';
-import { UserContext } from 'contexts/UserContext';
 import LoginForm from 'pages/User/components/LoginForm';
 import Banner from 'components/Banner';
 import Loading from 'components/Loading';
@@ -25,11 +24,8 @@ import './styles.scss';
 
 // Main
 const LoginPage = (props) => {
-  const [isShowLoading, setIsShowLoading] = useState(false);
-
+  const [isShow, setIsShow] = useState(false);
   const users = useSelector((state) => state.users.data);
-  const { setUserLogin } = useContext(UserContext);
-
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -40,7 +36,7 @@ const LoginPage = (props) => {
 
   // Handle events
   const handleSubmit = async (values) => {
-    setIsShowLoading(true);
+    setIsShow(true);
     try {
       const userFound = users.find(
         (user) =>
@@ -48,12 +44,10 @@ const LoginPage = (props) => {
           user.password === Base64.encode(values.password)
       );
       if (userFound) {
-        console.log('userFound', userFound);
-        setUserLogin(userFound);
         const action = updateStatusLogin(userFound.id);
         dispatch(action);
         await timeout(1000);
-        setIsShowLoading(false);
+        setIsShow(false);
         const type = props.location.state?.type;
         switch (type) {
           case 'Photo_Remove':
@@ -75,11 +69,11 @@ const LoginPage = (props) => {
             break;
         }
       } else {
-        setIsShowLoading(false);
+        setIsShow(false);
         alert('Login Fail');
       }
     } catch (error) {
-      setIsShowLoading(false);
+      setIsShow(false);
       alert('Login Fail');
       console.log(error);
     }
@@ -87,7 +81,7 @@ const LoginPage = (props) => {
 
   return (
     <Fragment>
-      <Loading isShow={isShowLoading}>
+      <Loading isShow={isShow}>
         <div className='login'>
           <Banner title='Login 🎉' backgroundUrl={Images.BRIDGE_BG} />
           <div className='login__form'>

@@ -9,7 +9,6 @@ import { useDispatch } from 'react-redux';
 import { Spinner } from 'reactstrap';
 
 import { updateStatusLogin } from 'redux/userSlice';
-import { UserContext } from 'contexts';
 import Header from './components/Header';
 import NotFound from './components/NotFound';
 
@@ -64,23 +63,21 @@ function App() {
             </div>
           </div>
         }>
-        <UserContext>
-          <Router>
-            <Header onLogoutClick={handleLogoutClick} />
+        <Router>
+          <Header onLogoutClick={handleLogoutClick} />
 
-            <Switch>
-              <Redirect exact from='/' to={PATH_HOME} />
+          <Switch>
+            <Redirect exact from='/' to={PATH_HOME} />
 
-              <Route exact path={PATH_HOME} component={Home} />
-              <Route path={PATH_PHOTOS} component={Photo} />
-              <Route path={PATH_CATEGORIES} component={Category} />
-              <Route path={PATH_USER} component={User} />
-              <Route path={PATH_NOTFOUND} component={NotFound} />
+            <Route exact path={PATH_HOME} component={Home} />
+            <Route path={PATH_PHOTOS} component={Photo} />
+            <Route path={PATH_CATEGORIES} component={Category} />
+            <Route path={PATH_USER} component={User} />
+            <Route path={PATH_NOTFOUND} component={NotFound} />
 
-              <Route component={NotFound} />
-            </Switch>
-          </Router>
-        </UserContext>
+            <Route component={NotFound} />
+          </Switch>
+        </Router>
       </Suspense>
     </div>
   );
