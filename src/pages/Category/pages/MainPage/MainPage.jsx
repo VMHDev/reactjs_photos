@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Container, Tooltip } from 'reactstrap';
-import { Link } from 'react-router-dom';
-import { useHistory } from 'react-router';
+import { Link, useHistory } from 'react-router-dom';
 import { BsPlusSquareFill } from 'react-icons/bs';
 
 import Banner from 'components/Banner';
@@ -24,11 +23,9 @@ const MainPage = (props) => {
 
   // Hander Events
   const handleCategoryEditClick = (category) => {
-    console.log('category', category);
     if (loginID) {
       history.push(PATH_CATEGORIES + category.id);
     } else {
-      console.log('loginID');
       history.push({
         pathname: PATH_USER_LOGIN,
         state: { type: 'Category_Edit' },

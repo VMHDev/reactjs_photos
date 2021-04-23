@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from 'react';
-import { useHistory } from 'react-router';
+import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { Base64 } from 'js-base64';
 
@@ -24,7 +24,6 @@ import './styles.scss';
 
 // Main
 const LoginPage = (props) => {
-  console.log('props', props);
   const [isShow, setIsShow] = useState(false);
   const users = useSelector((state) => state.users.data);
   const dispatch = useDispatch();
@@ -49,7 +48,7 @@ const LoginPage = (props) => {
         dispatch(action);
         await timeout(1000);
         setIsShow(false);
-        const type = props.location.state.type;
+        const type = props.location.state?.type;
         switch (type) {
           case 'Photo_Remove':
           case 'Photo_Edit':
