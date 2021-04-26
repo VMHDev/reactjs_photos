@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addCategory, updateCategory } from 'redux/categorySlice';
-import { useHistory, useParams } from 'react-router';
+import { useHistory, useParams } from 'react-router-dom';
 
 import Banner from 'components/Banner';
 import CategoryForm from 'pages/Category/components/CategoryForm';
@@ -14,14 +14,12 @@ const AddEditPage = (props) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const { categoryId } = useParams();
-  console.log('categoryId', categoryId);
-  const isAddMode = !categoryId;
+  const isAddMode = categoryId === 'add' || !categoryId ? true : false;
 
   const editedCategory = useSelector((state) => {
     const foundCategory = state.categories.find(
       (x) => x.id.toString() === categoryId
     );
-    console.log({ categories: state.categories, categoryId, foundCategory });
     return foundCategory;
   });
 
@@ -30,7 +28,6 @@ const AddEditPage = (props) => {
       Math,
       state.categories.map((object) => object.id)
     );
-    console.log('maxID', max);
     return max;
   });
 
@@ -43,7 +40,6 @@ const AddEditPage = (props) => {
 
   const handleSubmit = (values) => {
     try {
-      console.log('Form submit: ', values);
       if (isAddMode) {
         const action = addCategory(values);
         dispatch(action);
@@ -52,10 +48,8 @@ const AddEditPage = (props) => {
         dispatch(action);
       }
       history.push(PATH_CATEGORIES);
-      return true;
     } catch (error) {
       console.log(error);
-      return false;
     }
   };
 

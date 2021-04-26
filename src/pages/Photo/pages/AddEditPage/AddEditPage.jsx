@@ -1,7 +1,7 @@
 import React, { Fragment, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addPhoto, updatePhoto } from 'redux/photoSlice';
-import { useHistory, useParams } from 'react-router';
+import { useHistory, useParams } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 
 import Banner from 'components/Banner';
@@ -19,11 +19,10 @@ const AddEditPage = (props) => {
   const history = useHistory();
   const { photoId } = useParams();
 
-  const isAddMode = !photoId;
+  const isAddMode = photoId === 'add' || !photoId ? true : false;
 
   const editedPhoto = useSelector((state) => {
     const foundPhoto = state.photos.find((x) => x.id === photoId);
-    console.log({ photos: state.photos, photoId, foundPhoto });
     return foundPhoto;
   });
 
@@ -42,22 +41,18 @@ const AddEditPage = (props) => {
     try {
       if (isAddMode) {
         const action = addPhoto(values);
-        console.log({ action });
         dispatch(action);
         await timeout(1000);
       } else {
         const action = updatePhoto(values);
-        console.log({ action });
         dispatch(action);
         await timeout(1000);
       }
       setIsShow(false);
       history.push(PATH_PHOTOS);
-      return true;
     } catch (error) {
       setIsShow(false);
       console.log(error);
-      return false;
     }
   };
 

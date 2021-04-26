@@ -9,23 +9,37 @@ import Images from 'constants/images';
 import PhotoList from 'pages/Photo/components/PhotoList';
 import { removePhoto } from 'redux/photoSlice';
 
-import { PATH_PHOTOS } from 'constants/route';
+import { PATH_PHOTOS, PATH_PHOTOS_ADD, PATH_USER_LOGIN } from 'constants/route';
 
 const MainPage = (props) => {
-  const dispatch = useDispatch();
   const photos = useSelector((state) => state.photos);
+  const userLogin = useSelector((state) => state.users.login);
+  const dispatch = useDispatch();
   const history = useHistory();
 
   // Hander Events
   const handlePhotoEditClick = (photo) => {
-    history.push(PATH_PHOTOS + photo.id);
+    if (userLogin) {
+      history.push(PATH_PHOTOS + photo.id);
+    } else {
+      history.push({
+        pathname: PATH_USER_LOGIN,
+        state: { type: 'Photo_Edit' },
+      });
+    }
   };
 
   const handlePhotoRemoveClick = (photo) => {
-    console.log('Remove: ', photo);
-    const removePhotoId = photo.id;
-    const action = removePhoto(removePhotoId);
-    dispatch(action);
+    if (userLogin) {
+      const removePhotoId = photo.id;
+      const action = removePhoto(removePhotoId);
+      dispatch(action);
+    } else {
+      history.push({
+        pathname: PATH_USER_LOGIN,
+        state: { type: 'Photo_Remove' },
+      });
+    }
   };
 
   // Render GUI
@@ -35,13 +49,20 @@ const MainPage = (props) => {
   const [tooltipOpen, setTooltipOpen] = useState(false);
   const toggle = () => setTooltipOpen(!tooltipOpen);
 
+  const pathAdd = userLogin ? PATH_PHOTOS_ADD : PATH_USER_LOGIN;
+
   return (
     <div className='photo-main'>
       <Banner title='My photos 🎉' backgroundUrl={Images.BLUE_BG} />
 
       <Container className='text-center'>
         <div className='py-5 text-right'>
-          <Link to='/photos/add' id='AddNewPhoto'>
+          <Link
+            to={{
+              pathname: pathAdd,
+              state: { type: 'Photo_Add' },
+            }}
+            id='AddNewPhoto'>
             <BsPlusSquareFill style={iconStyles} />
           </Link>
           <Tooltip

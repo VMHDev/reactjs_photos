@@ -2,7 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
-import { EditColumn, DeleteColumn } from "./Column";
+import { EditColumn, DeleteColumn } from './Column';
+
+import './styles.scss';
 
 const CategoryTable = (props) => {
   const { categoryList, onCategoryEditClick, onCategoryRemoveClick } = props;
@@ -25,7 +27,9 @@ const CategoryTable = (props) => {
       headerAttrs: { width: 80 },
       attrs: { width: 80 },
       events: {
-        onClick: (e, column, columnIndex, row, rowIndex) => { handleEditClick(row) },
+        onClick: (e, column, columnIndex, row, rowIndex) => {
+          handleEditClick(row);
+        },
       },
     },
     {
@@ -36,7 +40,9 @@ const CategoryTable = (props) => {
       headerAttrs: { width: 80 },
       attrs: { width: 80 },
       events: {
-        onClick: (e, column, columnIndex, row, rowIndex) => { handleRemoveClick(row) },
+        onClick: (e, column, columnIndex, row, rowIndex) => {
+          handleRemoveClick(row);
+        },
       },
     },
   ];
