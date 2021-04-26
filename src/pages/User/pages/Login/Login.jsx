@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Base64 } from 'js-base64';
 
 import { updateStatusLogin } from 'redux/userSlice';
+import { showModalOk } from 'redux/appSlice';
 import LoginForm from 'pages/User/components/LoginForm';
 import Banner from 'components/Banner';
 import Loading from 'components/Loading';
@@ -83,11 +84,13 @@ const LoginPage = (props) => {
         }
       } else {
         setIsShow(false);
-        alert('Login Fail');
+        dispatch(
+          showModalOk({ title: 'Notification', content: 'Login failed' })
+        );
       }
     } catch (error) {
       setIsShow(false);
-      alert('Login Fail');
+      dispatch(showModalOk({ title: 'Notification', content: 'Login failed' }));
       console.log(error);
     }
   };
