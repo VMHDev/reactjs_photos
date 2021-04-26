@@ -50,11 +50,9 @@ const AddEditPage = (props) => {
       }
       setIsShow(false);
       history.push(PATH_PHOTOS);
-      return true;
     } catch (error) {
       setIsShow(false);
       console.log(error);
-      return false;
     }
   };
 

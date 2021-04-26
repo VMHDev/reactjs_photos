@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { Base64 } from 'js-base64';
@@ -26,6 +26,8 @@ import './styles.scss';
 const LoginPage = (props) => {
   const [isShow, setIsShow] = useState(false);
   const users = useSelector((state) => state.users.data);
+  const userLogin = useSelector((state) => state.users.login);
+
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -33,6 +35,15 @@ const LoginPage = (props) => {
     email: '',
     password: '',
   };
+
+  useEffect(() => {
+    if (userLogin) {
+      //Logout
+      const actionLogout = updateStatusLogin(null);
+      dispatch(actionLogout);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Handle events
   const handleSubmit = async (values) => {

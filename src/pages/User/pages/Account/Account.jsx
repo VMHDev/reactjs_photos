@@ -1,10 +1,9 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { v4 as uuidv4 } from 'uuid';
+import { useDispatch, useSelector } from 'react-redux';
 import { Base64 } from 'js-base64';
 
-import { addUser } from 'redux/userSlice';
+import { updateUser } from 'redux/userSlice';
 import RegisterForm from 'pages/User/components/RegisterForm';
 import Banner from 'components/Banner';
 
@@ -19,27 +18,29 @@ const Account = (props) => {
   const dispatch = useDispatch();
   const history = useHistory();
 
+  const userLogin = useSelector((state) => state.users.login);
+
   const initialValues = {
-    id: uuidv4(),
-    name: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
+    id: userLogin.id,
+    name: userLogin.name,
+    email: userLogin.email,
+    password: Base64.decode(userLogin.password),
+    confirmPassword: Base64.decode(userLogin.password),
   };
 
   // Handle events
   const handleSubmit = (values) => {
     try {
+      // Update user
       let objUser = { ...values };
       delete objUser.confirmPassword;
       objUser.password = Base64.encode(objUser.password);
-      const action = addUser(objUser);
-      dispatch(action);
+      const actionUpdate = updateUser(objUser);
+      dispatch(actionUpdate);
+      // Redirect
       history.push(PATH_USER_LOGIN);
-      return true;
     } catch (error) {
       console.log(error);
-      return false;
     }
   };
 
@@ -47,7 +48,11 @@ const Account = (props) => {
     <div className='account'>
       <Banner title='Account 🔥' backgroundUrl={Images.rainBackground} />
       <div className='account__form'>
-        <RegisterForm initialValues={initialValues} onSubmit={handleSubmit} />
+        <RegisterForm
+          initialValues={initialValues}
+          onSubmit={handleSubmit}
+          typePage='account'
+        />
       </div>
     </div>
   );

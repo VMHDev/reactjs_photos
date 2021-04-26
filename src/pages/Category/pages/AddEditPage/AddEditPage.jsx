@@ -48,10 +48,8 @@ const AddEditPage = (props) => {
         dispatch(action);
       }
       history.push(PATH_CATEGORIES);
-      return true;
     } catch (error) {
       console.log(error);
-      return false;
     }
   };
 

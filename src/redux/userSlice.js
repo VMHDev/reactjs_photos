@@ -33,7 +33,7 @@ const user = createSlice({
       state.login = action.payload;
       // Update local storage
       let existLocal = localStorage.getItem('users');
-      let obj = existLocal ? JSON.parse(existLocal) : {};
+      let obj = existLocal ? JSON.parse(existLocal) : null;
       obj.login = action.payload;
       localStorage.setItem('users', JSON.stringify(obj));
     },

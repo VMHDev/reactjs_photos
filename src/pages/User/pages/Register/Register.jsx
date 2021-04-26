@@ -36,10 +36,8 @@ const Register = (props) => {
       const action = addUser(objUser);
       dispatch(action);
       history.push(PATH_USER_LOGIN);
-      return true;
     } catch (error) {
       console.log(error);
-      return false;
     }
   };
 
@@ -47,7 +45,11 @@ const Register = (props) => {
     <div className='register'>
       <Banner title='Register 🔥' backgroundUrl={Images.BRIDGE2_BG} />
       <div className='register__form'>
-        <RegisterForm initialValues={initialValues} onSubmit={handleSubmit} />
+        <RegisterForm
+          initialValues={initialValues}
+          onSubmit={handleSubmit}
+          typePage='register'
+        />
       </div>
     </div>
   );
