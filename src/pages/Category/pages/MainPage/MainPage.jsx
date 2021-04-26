@@ -16,14 +16,14 @@ import {
 } from 'constants/route';
 
 const MainPage = (props) => {
-  const loginID = useSelector((state) => state.users.login);
+  const userLogin = useSelector((state) => state.users.login);
   const categories = useSelector((state) => state.categories);
   const history = useHistory();
   const dispatch = useDispatch();
 
   // Hander Events
   const handleCategoryEditClick = (category) => {
-    if (loginID) {
+    if (userLogin) {
       history.push(PATH_CATEGORIES + category.id);
     } else {
       history.push({
@@ -34,7 +34,7 @@ const MainPage = (props) => {
   };
 
   const handleCategoryRemoveClick = (category) => {
-    if (loginID) {
+    if (userLogin) {
       const removePhotoId = category.id;
       const action = removeCategory(removePhotoId);
       dispatch(action);
@@ -53,7 +53,7 @@ const MainPage = (props) => {
   const [tooltipOpen, setTooltipOpen] = useState(false);
   const toggle = () => setTooltipOpen(!tooltipOpen);
 
-  const pathAdd = loginID ? PATH_CATEGORIES_ADD : PATH_USER_LOGIN;
+  const pathAdd = userLogin ? PATH_CATEGORIES_ADD : PATH_USER_LOGIN;
 
   return (
     <div className='photo-main text-right'>

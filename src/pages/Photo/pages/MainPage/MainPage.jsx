@@ -13,13 +13,13 @@ import { PATH_PHOTOS, PATH_PHOTOS_ADD, PATH_USER_LOGIN } from 'constants/route';
 
 const MainPage = (props) => {
   const photos = useSelector((state) => state.photos);
-  const loginID = useSelector((state) => state.users.login);
+  const userLogin = useSelector((state) => state.users.login);
   const dispatch = useDispatch();
   const history = useHistory();
 
   // Hander Events
   const handlePhotoEditClick = (photo) => {
-    if (loginID) {
+    if (userLogin) {
       history.push(PATH_PHOTOS + photo.id);
     } else {
       history.push({
@@ -30,7 +30,7 @@ const MainPage = (props) => {
   };
 
   const handlePhotoRemoveClick = (photo) => {
-    if (loginID) {
+    if (userLogin) {
       const removePhotoId = photo.id;
       const action = removePhoto(removePhotoId);
       dispatch(action);
@@ -49,7 +49,7 @@ const MainPage = (props) => {
   const [tooltipOpen, setTooltipOpen] = useState(false);
   const toggle = () => setTooltipOpen(!tooltipOpen);
 
-  const pathAdd = loginID ? PATH_PHOTOS_ADD : PATH_USER_LOGIN;
+  const pathAdd = userLogin ? PATH_PHOTOS_ADD : PATH_USER_LOGIN;
 
   return (
     <div className='photo-main'>

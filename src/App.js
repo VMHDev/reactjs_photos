@@ -41,7 +41,7 @@ function App() {
   // Handle events
   const handleLogoutClick = () => {
     try {
-      const action = updateStatusLogin('');
+      const action = updateStatusLogin({});
       dispatch(action);
       return <Redirect to={PATH_HOME} />;
     } catch (error) {

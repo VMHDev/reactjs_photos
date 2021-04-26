@@ -31,9 +31,7 @@ import './styles.scss';
 const Header = (props) => {
   const { onLogoutClick } = props;
 
-  const loginID = useSelector((state) => state.users.login);
-  const dataUsers = useSelector((state) => state.users.data);
-  const userFound = dataUsers.find((user) => user.id === loginID);
+  const userLogin = useSelector((state) => state.users.login);
 
   // Render GUI
   const [isOpen, setIsOpen] = useState(false);
@@ -54,10 +52,10 @@ const Header = (props) => {
             </NavItem>
           </Nav>
         </Collapse>
-        {loginID !== '' ? (
+        {userLogin ? (
           <UncontrolledDropdown>
             <DropdownToggle nav caret>
-              {userFound.name}
+              {userLogin.name}
             </DropdownToggle>
             <DropdownMenu right>
               <DropdownItem>

@@ -4,10 +4,11 @@ import { v4 as uuidv4 } from 'uuid';
 const initUsers = () => {
   const users = localStorage.getItem('users');
   if (users) {
-    return JSON.parse(users);
+    const usersGet = JSON.parse(users);
+    return usersGet;
   } else {
     const usersInit = {
-      login: '',
+      login: null,
       data: [
         {
           id: uuidv4(),

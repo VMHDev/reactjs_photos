@@ -44,10 +44,12 @@ const LoginPage = (props) => {
           user.password === Base64.encode(values.password)
       );
       if (userFound) {
-        const action = updateStatusLogin(userFound.id);
+        const action = updateStatusLogin(userFound);
         dispatch(action);
         await timeout(1000);
+        // Stop show loading
         setIsShow(false);
+        // Redirect pages
         const type = props.location.state?.type;
         switch (type) {
           case 'Photo_Remove':
