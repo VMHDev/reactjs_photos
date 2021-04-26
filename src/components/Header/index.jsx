@@ -22,17 +22,16 @@ import {
   PATH_PHOTOS,
   PATH_CATEGORIES,
   PATH_USER_LOGIN,
+  PATH_USER_ACCOUNT,
 } from 'constants/route';
 
 // Styles
 import './styles.scss';
 
 const Header = (props) => {
-  const loginID = useSelector((state) => state.users.login);
-  const dataUsers = useSelector((state) => state.users.data);
-  const userFound = dataUsers.find((user) => user.id === loginID);
-
   const { onLogoutClick } = props;
+
+  const userLogin = useSelector((state) => state.users.login);
 
   // Render GUI
   const [isOpen, setIsOpen] = useState(false);
@@ -53,14 +52,14 @@ const Header = (props) => {
             </NavItem>
           </Nav>
         </Collapse>
-        {loginID !== '' ? (
+        {userLogin ? (
           <UncontrolledDropdown>
             <DropdownToggle nav caret>
-              {userFound.name}
+              {userLogin.name}
             </DropdownToggle>
             <DropdownMenu right>
               <DropdownItem>
-                <Link to='' className='link'>
+                <Link to={PATH_USER_ACCOUNT} className='link'>
                   Account
                 </Link>
               </DropdownItem>

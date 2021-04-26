@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Button, FormGroup, Spinner } from 'reactstrap';
+import { Button, FormGroup } from 'reactstrap';
 import { Formik, Form, FastField } from 'formik';
 import InputField from 'components/InputField';
 import SelectField from 'components/SelectField';
@@ -47,10 +47,7 @@ const PhotoForm = (props) => {
       initialValues={initialValues}
       validationSchema={validationSchema}
       onSubmit={onSubmit}>
-      {(formikProps) => {
-        const { values, errors, touched, isSubmitting } = formikProps;
-        console.log({ values, errors, touched });
-
+      {() => {
         return (
           <Form>
             <FastField
@@ -76,7 +73,6 @@ const PhotoForm = (props) => {
 
             <FormGroup>
               <Button type='submit' color={isAddMode ? 'primary' : 'success'}>
-                {isSubmitting && <Spinner size='sm' />}
                 {isAddMode ? 'Add' : 'Update'}
               </Button>
             </FormGroup>

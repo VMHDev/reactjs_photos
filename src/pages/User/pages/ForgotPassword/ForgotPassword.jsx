@@ -24,6 +24,8 @@ const ForgotPassword = (props) => {
   const initialValues = {
     email: '',
   };
+
+  const [email, setEmail] = useState('');
   const [fogotPassword, setFogotPassword] = useState(0);
   const [token, setToken] = useState('');
   useEffect(() => {}, [token]);
@@ -41,6 +43,7 @@ const ForgotPassword = (props) => {
   // Handle events
   const handleSubmit = (values) => {
     try {
+      setEmail(values.email);
       const userFound = users.find((user) => user.email === values.email);
       if (userFound) {
         const sToken = generateToken(userFound.id);
@@ -62,6 +65,8 @@ const ForgotPassword = (props) => {
     }
   };
 
+  const pathResetPassword = PATH_USER_RESETPASSWORD + token;
+
   return (
     <div className='forgot-password'>
       <Banner title='Forgot Password 🔥' backgroundUrl={Images.BRIDGE2_BG} />
@@ -73,7 +78,7 @@ const ForgotPassword = (props) => {
         {fogotPassword === 1 ? (
           <>
             <span>Step next click link: </span>
-            <NavLink to={PATH_USER_RESETPASSWORD + token}>
+            <NavLink to={{ pathname: pathResetPassword, state: { email } }}>
               {WEB_URL + PATH_USER_RESETPASSWORD + token}
             </NavLink>
           </>

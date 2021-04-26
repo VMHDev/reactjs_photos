@@ -30,10 +30,7 @@ const LoginForm = (props) => {
       initialValues={initialValues}
       validationSchema={validationSchema}
       onSubmit={onSubmit}>
-      {(formikProps) => {
-        const { values, errors, touched } = formikProps;
-        console.log({ values, errors, touched });
-
+      {() => {
         return (
           <Fragment>
             <Form>

@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Container, Tooltip } from 'reactstrap';
-import { Link } from 'react-router-dom';
-import { useHistory } from 'react-router';
+import { Link, useHistory } from 'react-router-dom';
 import { BsPlusSquareFill } from 'react-icons/bs';
 
 import Banner from 'components/Banner';
@@ -17,18 +16,16 @@ import {
 } from 'constants/route';
 
 const MainPage = (props) => {
-  const loginID = useSelector((state) => state.users.login);
+  const userLogin = useSelector((state) => state.users.login);
   const categories = useSelector((state) => state.categories);
   const history = useHistory();
   const dispatch = useDispatch();
 
   // Hander Events
   const handleCategoryEditClick = (category) => {
-    console.log('category', category);
-    if (loginID) {
+    if (userLogin) {
       history.push(PATH_CATEGORIES + category.id);
     } else {
-      console.log('loginID');
       history.push({
         pathname: PATH_USER_LOGIN,
         state: { type: 'Category_Edit' },
@@ -37,7 +34,7 @@ const MainPage = (props) => {
   };
 
   const handleCategoryRemoveClick = (category) => {
-    if (loginID) {
+    if (userLogin) {
       const removePhotoId = category.id;
       const action = removeCategory(removePhotoId);
       dispatch(action);
@@ -56,7 +53,7 @@ const MainPage = (props) => {
   const [tooltipOpen, setTooltipOpen] = useState(false);
   const toggle = () => setTooltipOpen(!tooltipOpen);
 
-  const pathAdd = loginID ? PATH_CATEGORIES_ADD : PATH_USER_LOGIN;
+  const pathAdd = userLogin ? PATH_CATEGORIES_ADD : PATH_USER_LOGIN;
 
   return (
     <div className='photo-main text-right'>

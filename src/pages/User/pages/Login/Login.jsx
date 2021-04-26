@@ -1,5 +1,5 @@
-import React, { Fragment, useState } from 'react';
-import { useHistory } from 'react-router';
+import React, { Fragment, useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { Base64 } from 'js-base64';
 
@@ -11,16 +11,23 @@ import { timeout } from 'utils/helper';
 
 // Constants
 import Images from 'constants/images';
-import { PATH_HOME, PATH_PHOTOS, PATH_CATEGORIES } from 'constants/route';
+import {
+  PATH_HOME,
+  PATH_PHOTOS,
+  PATH_CATEGORIES,
+  PATH_PHOTOS_ADD,
+  PATH_CATEGORIES_ADD,
+} from 'constants/route';
 
 // Styles
 import './styles.scss';
 
 // Main
 const LoginPage = (props) => {
-  console.log('props', props);
   const [isShow, setIsShow] = useState(false);
   const users = useSelector((state) => state.users.data);
+  const userLogin = useSelector((state) => state.users.login);
+
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -28,6 +35,15 @@ const LoginPage = (props) => {
     email: '',
     password: '',
   };
+
+  useEffect(() => {
+    if (userLogin) {
+      //Logout
+      const actionLogout = updateStatusLogin(null);
+      dispatch(actionLogout);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Handle events
   const handleSubmit = async (values) => {
@@ -39,21 +55,27 @@ const LoginPage = (props) => {
           user.password === Base64.encode(values.password)
       );
       if (userFound) {
-        const action = updateStatusLogin(userFound.id);
+        const action = updateStatusLogin(userFound);
         dispatch(action);
         await timeout(1000);
+        // Stop show loading
         setIsShow(false);
-        const type = props.location.state.type;
+        // Redirect pages
+        const type = props.location.state?.type;
         switch (type) {
           case 'Photo_Remove':
           case 'Photo_Edit':
-          case 'Photo_Add':
             history.push(PATH_PHOTOS);
+            break;
+          case 'Photo_Add':
+            history.push(PATH_PHOTOS_ADD);
             break;
           case 'Category_Remove':
           case 'Category_Edit':
-          case 'Category_Add':
             history.push(PATH_CATEGORIES);
+            break;
+          case 'Category_Add':
+            history.push(PATH_CATEGORIES_ADD);
             break;
           default:
             history.push(PATH_HOME);
