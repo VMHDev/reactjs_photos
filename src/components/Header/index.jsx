@@ -39,11 +39,13 @@ const Header = (props) => {
 
   return (
     <div>
-      <Navbar color='light' light expand='md'>
+      <Navbar color='light' light expand='md' className='header'>
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
-          <Nav className='mr-auto' navbar>
-            <NavbarBrand href={PATH_HOME}>PHOTO APPS</NavbarBrand>
+          <Nav className='mr-auto header__ul' navbar>
+            <NavbarBrand href={PATH_HOME} className='header__title'>
+              PHOTO APPS
+            </NavbarBrand>
             <NavItem>
               <NavLink href={PATH_PHOTOS}>Photo</NavLink>
             </NavItem>
@@ -59,12 +61,12 @@ const Header = (props) => {
             </DropdownToggle>
             <DropdownMenu right>
               <DropdownItem>
-                <Link to={PATH_USER_ACCOUNT} className='link'>
+                <Link to={PATH_USER_ACCOUNT} className='header__link'>
                   Account
                 </Link>
               </DropdownItem>
               <DropdownItem>
-                <Link to='' onClick={onLogoutClick} className='link'>
+                <Link to='' onClick={onLogoutClick} className='header__link'>
                   Logout
                 </Link>
               </DropdownItem>
