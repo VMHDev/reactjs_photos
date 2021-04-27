@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import { Container, Tooltip } from 'reactstrap';
 import { BsPlusSquareFill } from 'react-icons/bs';
+import { useCookies } from 'react-cookie';
 
 import Banner from 'components/Banner';
 import ModalYesNoCancel from 'components/Modal/ModalYesNoCancel';
@@ -15,15 +16,17 @@ import Images from 'constants/images';
 
 const MainPage = (props) => {
   const photos = useSelector((state) => state.photos);
-  const userLogin = useSelector((state) => state.users.login);
   const dispatch = useDispatch();
   const history = useHistory();
 
   const [photoSelected, setPhotoSelected] = useState(null);
 
+  // Get cookie
+  const [cookies] = useCookies(['login']);
+
   // Hander Events
   const handlePhotoEditClick = (photo) => {
-    if (userLogin) {
+    if (cookies?.login) {
       history.push(PATH_PHOTOS + photo.id);
     } else {
       history.push({
@@ -34,7 +37,7 @@ const MainPage = (props) => {
   };
 
   const handlePhotoRemoveClick = (photo) => {
-    if (userLogin) {
+    if (cookies?.login) {
       setPhotoSelected(photo);
       dispatch(
         showModalYesNoCancel({
@@ -77,7 +80,7 @@ const MainPage = (props) => {
   const [tooltipOpen, setTooltipOpen] = useState(false);
   const toggle = () => setTooltipOpen(!tooltipOpen);
 
-  const pathAdd = userLogin ? PATH_PHOTOS_ADD : PATH_USER_LOGIN;
+  const pathAdd = cookies?.login ? PATH_PHOTOS_ADD : PATH_USER_LOGIN;
 
   return (
     <Fragment>

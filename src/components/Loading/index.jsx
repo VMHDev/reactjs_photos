@@ -4,7 +4,6 @@ import { useSelector } from 'react-redux';
 
 const Loading = (props) => {
   const isShowLoading = useSelector((state) => {
-    console.log('state.app.isShowLoading', state.app.isShowLoading);
     return state.app.isShowLoading || false;
   });
 

@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import {
@@ -14,7 +15,7 @@ import {
   DropdownItem,
   NavLink,
 } from 'reactstrap';
-import { useSelector } from 'react-redux';
+import { useCookies } from 'react-cookie';
 
 // Constants
 import {
@@ -30,8 +31,14 @@ import './styles.scss';
 
 const Header = (props) => {
   const { onLogoutClick } = props;
+  const history = useHistory();
 
-  const userLogin = useSelector((state) => state.users.login);
+  const [cookies] = useCookies(['login']);
+  useEffect(() => {
+    if (!cookies?.login) {
+      history.push(PATH_USER_LOGIN);
+    }
+  }, [cookies, history]);
 
   // Render GUI
   const [isOpen, setIsOpen] = useState(false);
@@ -54,10 +61,10 @@ const Header = (props) => {
             </NavItem>
           </Nav>
         </Collapse>
-        {userLogin ? (
+        {cookies?.login ? (
           <UncontrolledDropdown>
             <DropdownToggle nav caret>
-              {userLogin.name}
+              {cookies?.login.name}
             </DropdownToggle>
             <DropdownMenu right>
               <DropdownItem>

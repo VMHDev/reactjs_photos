@@ -5,10 +5,9 @@ import {
   Switch,
   Redirect,
 } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 import { Spinner } from 'reactstrap';
+import { useCookies } from 'react-cookie';
 
-import { updateStatusLogin } from 'redux/userSlice';
 import Header from 'components/Header';
 import NotFound from 'components/NotFound';
 import { ModalOk } from 'components/Modal';
@@ -39,12 +38,12 @@ const User = React.lazy(() => import('./pages/User/User'));
 
 // Main
 function App() {
-  const dispatch = useDispatch();
+  // eslint-disable-next-line
+  const [cookies, setCookie, removeCookie] = useCookies(['login']);
   // Handle events
   const handleLogoutClick = () => {
     try {
-      const action = updateStatusLogin(null);
-      dispatch(action);
+      removeCookie('login', { path: '/' });
       return <Redirect to={PATH_HOME} />;
     } catch (error) {
       alert('Logout Fail!');

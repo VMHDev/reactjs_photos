@@ -2,6 +2,7 @@ import React, { Fragment, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { Base64 } from 'js-base64';
+import { useCookies } from 'react-cookie';
 
 import { updateStatusLogin } from 'redux/userSlice';
 import { showLoading, showModalOk } from 'redux/appSlice';
@@ -25,10 +26,11 @@ import './styles.scss';
 // Main
 const LoginPage = (props) => {
   const users = useSelector((state) => state.users.data);
-  const userLogin = useSelector((state) => state.users.login);
 
   const dispatch = useDispatch();
   const history = useHistory();
+
+  const [cookies, setCookie] = useCookies(['login']);
 
   const initialValues = {
     email: '',
@@ -36,7 +38,7 @@ const LoginPage = (props) => {
   };
 
   useEffect(() => {
-    if (userLogin) {
+    if (cookies?.login) {
       //Logout
       const actionLogout = updateStatusLogin(null);
       dispatch(actionLogout);
@@ -57,6 +59,10 @@ const LoginPage = (props) => {
       if (userFound) {
         const action = updateStatusLogin(userFound);
         dispatch(action);
+        setCookie('login', JSON.stringify(userFound), {
+          path: '/',
+          maxAge: 3600,
+        });
         await timeout(1000);
         isSuccess = true;
         // Redirect pages
