@@ -1,13 +1,12 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { Base64 } from 'js-base64';
 
 import { updateStatusLogin } from 'redux/userSlice';
-import { showModalOk } from 'redux/appSlice';
+import { showLoading, showModalOk } from 'redux/appSlice';
 import LoginForm from 'pages/User/components/LoginForm';
 import Banner from 'components/Banner';
-import Loading from 'components/Loading';
 import { timeout } from 'utils/helper';
 
 // Constants
@@ -25,7 +24,6 @@ import './styles.scss';
 
 // Main
 const LoginPage = (props) => {
-  const [isShow, setIsShow] = useState(false);
   const users = useSelector((state) => state.users.data);
   const userLogin = useSelector((state) => state.users.login);
 
@@ -48,8 +46,9 @@ const LoginPage = (props) => {
 
   // Handle events
   const handleSubmit = async (values) => {
-    setIsShow(true);
+    dispatch(showLoading(true));
     try {
+      var isSuccess = false;
       const userFound = users.find(
         (user) =>
           user.email === values.email &&
@@ -59,8 +58,7 @@ const LoginPage = (props) => {
         const action = updateStatusLogin(userFound);
         dispatch(action);
         await timeout(1000);
-        // Stop show loading
-        setIsShow(false);
+        isSuccess = true;
         // Redirect pages
         const type = props.location.state?.type;
         switch (type) {
@@ -82,29 +80,24 @@ const LoginPage = (props) => {
             history.push(PATH_HOME);
             break;
         }
-      } else {
-        setIsShow(false);
-        dispatch(
-          showModalOk({ title: 'Notification', content: 'Login failed' })
-        );
       }
     } catch (error) {
-      setIsShow(false);
-      dispatch(showModalOk({ title: 'Notification', content: 'Login failed' }));
       console.log(error);
     }
+    if (!isSuccess) {
+      dispatch(showModalOk({ title: 'Notification', content: 'Login failed' }));
+    }
+    dispatch(showLoading(false));
   };
 
   return (
     <Fragment>
-      <Loading isShow={isShow}>
-        <div className='login'>
-          <Banner title='Login 🎉' backgroundUrl={Images.BRIDGE_BG} />
-          <div className='login__form'>
-            <LoginForm initialValues={initialValues} onSubmit={handleSubmit} />
-          </div>
+      <div className='login'>
+        <Banner title='Login 🎉' backgroundUrl={Images.BRIDGE_BG} />
+        <div className='login__form'>
+          <LoginForm initialValues={initialValues} onSubmit={handleSubmit} />
         </div>
-      </Loading>
+      </div>
     </Fragment>
   );
 };

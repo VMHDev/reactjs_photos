@@ -1,8 +1,18 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import LoadingOverlay from 'react-loading-overlay';
+import { useSelector } from 'react-redux';
 
 const Loading = (props) => {
-  const { isShow } = props;
+  const isShowLoading = useSelector((state) => {
+    console.log('state.app.isShowLoading', state.app.isShowLoading);
+    return state.app.isShowLoading || false;
+  });
+
+  const [isShow, setIsShow] = useState(isShowLoading);
+
+  useEffect(() => {
+    setIsShow(isShowLoading);
+  }, [isShowLoading]);
 
   return (
     <LoadingOverlay
@@ -12,6 +22,7 @@ const Loading = (props) => {
         overlay: (base) => ({
           ...base,
           height: '100vh',
+          position: 'fixed',
         }),
       }}>
       {props.children}
