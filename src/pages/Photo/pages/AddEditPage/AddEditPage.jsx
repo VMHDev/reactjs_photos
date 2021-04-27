@@ -1,12 +1,12 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addPhoto, updatePhoto } from 'redux/photoSlice';
+import { showLoading } from 'redux/appSlice';
 import { useHistory, useParams } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 
 import Banner from 'components/Banner';
 import PhotoForm from 'pages/Photo/components/PhotoForm';
-import Loading from 'components/Loading';
 import { timeout } from 'utils/helper';
 
 import { PATH_PHOTOS } from 'constants/route';
@@ -14,7 +14,6 @@ import { PATH_PHOTOS } from 'constants/route';
 import './styles.scss';
 
 const AddEditPage = (props) => {
-  const [isShow, setIsShow] = useState(false);
   const dispatch = useDispatch();
   const history = useHistory();
   const { photoId } = useParams();
@@ -37,7 +36,7 @@ const AddEditPage = (props) => {
 
   // Handle events
   const handleSubmit = async (values) => {
-    setIsShow(true);
+    dispatch(showLoading(true));
     try {
       if (isAddMode) {
         const action = addPhoto(values);
@@ -48,30 +47,27 @@ const AddEditPage = (props) => {
         dispatch(action);
         await timeout(1000);
       }
-      setIsShow(false);
       history.push(PATH_PHOTOS);
     } catch (error) {
-      setIsShow(false);
       console.log(error);
     }
+    dispatch(showLoading(false));
   };
 
   // Render GUI
   return (
     <Fragment>
-      <Loading isShow={isShow}>
-        <div className='photo-edit'>
-          <Banner title={isAddMode ? 'Add new photo 📷' : 'Update photo 📷'} />
+      <div className='photo-edit'>
+        <Banner title={isAddMode ? 'Add new photo 📷' : 'Update photo 📷'} />
 
-          <div className='photo-edit__form'>
-            <PhotoForm
-              isAddMode={isAddMode}
-              initialValues={initialValues}
-              onSubmit={handleSubmit}
-            />
-          </div>
+        <div className='photo-edit__form'>
+          <PhotoForm
+            isAddMode={isAddMode}
+            initialValues={initialValues}
+            onSubmit={handleSubmit}
+          />
         </div>
-      </Loading>
+      </div>
     </Fragment>
   );
 };

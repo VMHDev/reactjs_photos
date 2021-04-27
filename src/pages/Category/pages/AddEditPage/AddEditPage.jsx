@@ -1,10 +1,12 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { showLoading } from 'redux/appSlice';
 import { addCategory, updateCategory } from 'redux/categorySlice';
 import { useHistory, useParams } from 'react-router-dom';
 
 import Banner from 'components/Banner';
 import CategoryForm from 'pages/Category/components/CategoryForm';
+import { timeout } from 'utils/helper';
 
 import { PATH_CATEGORIES } from 'constants/route';
 
@@ -38,19 +40,23 @@ const AddEditPage = (props) => {
       }
     : editedCategory;
 
-  const handleSubmit = (values) => {
+  const handleSubmit = async (values) => {
+    dispatch(showLoading(true));
     try {
       if (isAddMode) {
         const action = addCategory(values);
         dispatch(action);
+        await timeout(1000);
       } else {
         const action = updateCategory(values);
         dispatch(action);
+        await timeout(1000);
       }
       history.push(PATH_CATEGORIES);
     } catch (error) {
       console.log(error);
     }
+    dispatch(showLoading(false));
   };
 
   return (

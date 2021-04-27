@@ -6,9 +6,9 @@ import './styles.scss';
 const Home = () => {
   return (
     <Fragment>
-      <div className='hero'>
+      <div className='home'>
         <div
-          className='hero hero-container'
+          className='home home-container'
           data-aos='zoom-in'
           data-aos-delay={100}>
           <h1>Welcome to Photos App</h1>
