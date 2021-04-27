@@ -2,9 +2,8 @@ import React, { Fragment, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { Base64 } from 'js-base64';
-import { useCookies } from 'react-cookie';
 
-import { updateStatusLogin } from 'redux/userSlice';
+import { addLogin, removeLogin } from 'redux/cookieSlice';
 import { showLoading, showModalOk } from 'redux/appSlice';
 import LoginForm from 'pages/User/components/LoginForm';
 import Banner from 'components/Banner';
@@ -26,11 +25,10 @@ import './styles.scss';
 // Main
 const LoginPage = (props) => {
   const users = useSelector((state) => state.users.data);
+  const userLogin = useSelector((state) => state.cookies.login);
 
   const dispatch = useDispatch();
   const history = useHistory();
-
-  const [cookies, setCookie] = useCookies(['login']);
 
   const initialValues = {
     email: '',
@@ -38,10 +36,10 @@ const LoginPage = (props) => {
   };
 
   useEffect(() => {
-    if (cookies?.login) {
+    if (userLogin) {
       //Logout
-      const actionLogout = updateStatusLogin(null);
-      dispatch(actionLogout);
+      const action = removeLogin(null);
+      dispatch(action);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -57,12 +55,8 @@ const LoginPage = (props) => {
           user.password === Base64.encode(values.password)
       );
       if (userFound) {
-        const action = updateStatusLogin(userFound);
+        const action = addLogin(userFound);
         dispatch(action);
-        setCookie('login', JSON.stringify(userFound), {
-          path: '/',
-          maxAge: 3600,
-        });
         await timeout(1000);
         isSuccess = true;
         // Redirect pages

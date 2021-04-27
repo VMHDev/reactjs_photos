@@ -8,7 +8,6 @@ const initUsers = () => {
     return usersGet;
   } else {
     const usersInit = {
-      login: null,
       data: [
         {
           id: uuidv4(),
@@ -29,14 +28,6 @@ const user = createSlice({
   name: 'users',
   initialState,
   reducers: {
-    updateStatusLogin: (state, action) => {
-      state.login = action.payload;
-      // Update local storage
-      let existLocal = localStorage.getItem('users');
-      let obj = existLocal ? JSON.parse(existLocal) : null;
-      obj.login = action.payload;
-      localStorage.setItem('users', JSON.stringify(obj));
-    },
     updateUser: (state, action) => {
       const updateUser = action.payload;
       const userIndex = state.data.findIndex(
@@ -60,5 +51,5 @@ const user = createSlice({
 });
 
 const { reducer, actions } = user;
-export const { updateStatusLogin, addUser, updateUser } = actions;
+export const { addUser, updateUser } = actions;
 export default reducer;

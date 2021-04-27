@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Container, Tooltip } from 'reactstrap';
 import { Link, useHistory } from 'react-router-dom';
 import { BsPlusSquareFill } from 'react-icons/bs';
-import { useCookies } from 'react-cookie';
 
 import Banner from 'components/Banner';
 import ModalYesNoCancel from 'components/Modal/ModalYesNoCancel';
@@ -26,11 +25,11 @@ const MainPage = (props) => {
   const [categorySelected, setCategorySelected] = useState(null);
 
   // Get cookie
-  const [cookies] = useCookies(['login']);
+  const userLogin = useSelector((state) => state.cookies.login);
 
   // Hander Events
   const handleCategoryEditClick = (category) => {
-    if (cookies?.login) {
+    if (userLogin) {
       history.push(PATH_CATEGORIES + category.id);
     } else {
       history.push({
@@ -41,7 +40,7 @@ const MainPage = (props) => {
   };
 
   const handleCategoryRemoveClick = (category) => {
-    if (cookies?.login) {
+    if (userLogin) {
       setCategorySelected(category);
       dispatch(
         showModalYesNoCancel({
@@ -84,7 +83,7 @@ const MainPage = (props) => {
   const [tooltipOpen, setTooltipOpen] = useState(false);
   const toggle = () => setTooltipOpen(!tooltipOpen);
 
-  const pathAdd = cookies?.login ? PATH_CATEGORIES_ADD : PATH_USER_LOGIN;
+  const pathAdd = userLogin ? PATH_CATEGORIES_ADD : PATH_USER_LOGIN;
 
   return (
     <Fragment>

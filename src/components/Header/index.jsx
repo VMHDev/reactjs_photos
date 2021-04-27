@@ -15,7 +15,7 @@ import {
   DropdownItem,
   NavLink,
 } from 'reactstrap';
-import { useCookies } from 'react-cookie';
+import { useSelector } from 'react-redux';
 
 // Constants
 import {
@@ -33,12 +33,13 @@ const Header = (props) => {
   const { onLogoutClick } = props;
   const history = useHistory();
 
-  const [cookies] = useCookies(['login']);
+  const userLogin = useSelector((state) => state.cookies.login);
   useEffect(() => {
-    if (!cookies?.login) {
+    if (!userLogin) {
+      console.log('Session timeout');
       history.push(PATH_USER_LOGIN);
     }
-  }, [cookies, history]);
+  }, [userLogin, history]);
 
   // Render GUI
   const [isOpen, setIsOpen] = useState(false);
@@ -61,10 +62,10 @@ const Header = (props) => {
             </NavItem>
           </Nav>
         </Collapse>
-        {cookies?.login ? (
+        {userLogin ? (
           <UncontrolledDropdown>
             <DropdownToggle nav caret>
-              {cookies?.login.name}
+              {userLogin.name}
             </DropdownToggle>
             <DropdownMenu right>
               <DropdownItem>

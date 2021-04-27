@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Base64 } from 'js-base64';
-import { useCookies } from 'react-cookie';
 
 import { updateUser } from 'redux/userSlice';
 import RegisterForm from 'pages/User/components/RegisterForm';
@@ -19,21 +18,20 @@ const Account = (props) => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const [cookies] = useCookies(['login']);
+  // Get cookie
+  const userLogin = useSelector((state) => state.cookies.login);
   useEffect(() => {
-    if (!cookies?.login) {
+    if (!userLogin) {
       history.push(PATH_USER_LOGIN);
     }
-  }, []);
+  }, [userLogin, history]);
 
   const initialValues = {
-    id: cookies?.login?.id,
-    name: cookies?.login?.name,
-    email: cookies?.login?.email,
-    password: Base64.decode(cookies?.login ? cookies?.login?.password : ''),
-    confirmPassword: Base64.decode(
-      cookies?.login ? cookies?.login?.password : ''
-    ),
+    id: userLogin.id,
+    name: userLogin.name,
+    email: userLogin.email,
+    password: Base64.decode(userLogin.password),
+    confirmPassword: Base64.decode(userLogin.password),
   };
 
   // Handle events
