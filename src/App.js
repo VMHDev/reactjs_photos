@@ -1,11 +1,11 @@
-import React, { Suspense, useState, useEffect, Fragment } from 'react';
+import React, { Suspense, Fragment } from 'react';
 import {
   BrowserRouter as Router,
   Route,
   Switch,
   Redirect,
 } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Spinner } from 'reactstrap';
 
 import { updateStatusLogin } from 'redux/userSlice';
@@ -52,16 +52,6 @@ function App() {
     }
   };
 
-  // Modal
-  const modalOk = useSelector((state) => state.app.modalOk || {});
-  const [isShowDialog, setIsShowDialog] = useState(false);
-
-  useEffect(() => {
-    if (modalOk.title || modalOk.content) {
-      setIsShowDialog(true);
-    }
-  }, [modalOk]);
-
   // Render GUI
   return (
     <Fragment>
@@ -96,11 +86,7 @@ function App() {
         </div>
       </Loading>
       {/* Modal */}
-      <ModalOk
-        modalTitle='Information'
-        modalContent='Login failed'
-        isShowModal={isShowDialog}
-      />
+      <ModalOk />
     </Fragment>
   );
 }

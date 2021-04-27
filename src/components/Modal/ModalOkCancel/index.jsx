@@ -1,17 +1,20 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { useSelector } from 'react-redux';
 import './styles.scss';
 
-const ModalOk = (props) => {
-  const modalOk = useSelector((state) => state.app.modalOk || {});
+const ModalOkCancel = ({ onClickOk }) => {
+  const modalOkCancel = useSelector((state) => state.app.modalOkCancel || {});
   const [isShowDialog, setIsShowDialog] = useState(false);
 
   useEffect(() => {
-    if (modalOk.title || modalOk.content) {
+    if (modalOkCancel.title || modalOkCancel.content) {
       setIsShowDialog(true);
+    } else {
+      setIsShowDialog(false);
     }
-  }, [modalOk]);
+  }, [modalOkCancel]);
 
   const toggle = () => setIsShowDialog(!isShowDialog);
 
@@ -19,12 +22,15 @@ const ModalOk = (props) => {
     <div>
       <Modal isOpen={isShowDialog} toggle={toggle}>
         <ModalHeader className='modal__header' toggle={toggle}>
-          {modalOk.title}
+          {modalOkCancel.title}
         </ModalHeader>
-        <ModalBody>{modalOk.content}</ModalBody>
+        <ModalBody>{modalOkCancel.content}</ModalBody>
         <ModalFooter className='modal__footer'>
-          <Button color='primary' onClick={toggle}>
+          <Button color='primary' onClick={onClickOk}>
             OK
+          </Button>
+          <Button color='primary' onClick={toggle}>
+            Cancel
           </Button>
         </ModalFooter>
       </Modal>
@@ -32,4 +38,12 @@ const ModalOk = (props) => {
   );
 };
 
-export default ModalOk;
+ModalOkCancel.propTypes = {
+  onClickOk: PropTypes.func,
+};
+
+ModalOkCancel.defaultProps = {
+  onClickOk: null,
+};
+
+export default ModalOkCancel;

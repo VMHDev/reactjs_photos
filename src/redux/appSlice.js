@@ -5,6 +5,8 @@ const app = createSlice({
   initialState: {
     isShowLoading: false,
     modalOk: {},
+    modalOkCancel: {},
+    modalYesNoCancel: {},
   },
   reducers: {
     showLoading(state, action) {
@@ -13,9 +15,20 @@ const app = createSlice({
     showModalOk(state, action) {
       state.modalOk = action.payload;
     },
+    showModalOkCancel(state, action) {
+      state.modalOkCancel = action.payload;
+    },
+    showModalYesNoCancel(state, action) {
+      state.modalYesNoCancel = action.payload;
+    },
   },
 });
 
 const { reducer, actions } = app;
-export const { showLoading, showModalOk } = actions;
+export const {
+  showLoading,
+  showModalOk,
+  showModalOkCancel,
+  showModalYesNoCancel,
+} = actions;
 export default reducer;

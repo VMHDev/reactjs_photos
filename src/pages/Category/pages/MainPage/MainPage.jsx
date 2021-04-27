@@ -1,25 +1,29 @@
-import React, { useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Container, Tooltip } from 'reactstrap';
 import { Link, useHistory } from 'react-router-dom';
 import { BsPlusSquareFill } from 'react-icons/bs';
 
 import Banner from 'components/Banner';
-import Images from 'constants/images';
+import ModalYesNoCancel from 'components/Modal/ModalYesNoCancel';
 import CategoryTable from 'pages/Category/components/CategoryTable';
 import { removeCategory } from 'redux/categorySlice';
+import { showModalOk, showModalYesNoCancel } from 'redux/appSlice';
 
 import {
   PATH_CATEGORIES,
   PATH_USER_LOGIN,
   PATH_CATEGORIES_ADD,
 } from 'constants/route';
+import Images from 'constants/images';
 
 const MainPage = (props) => {
   const userLogin = useSelector((state) => state.users.login);
   const categories = useSelector((state) => state.categories);
   const history = useHistory();
   const dispatch = useDispatch();
+
+  const [categorySelected, setCategorySelected] = useState(null);
 
   // Hander Events
   const handleCategoryEditClick = (category) => {
@@ -35,15 +39,39 @@ const MainPage = (props) => {
 
   const handleCategoryRemoveClick = (category) => {
     if (userLogin) {
-      const removePhotoId = category.id;
-      const action = removeCategory(removePhotoId);
-      dispatch(action);
+      setCategorySelected(category);
+      dispatch(
+        showModalYesNoCancel({
+          title: 'Confirm',
+          content: 'Are you sure you want to delete this item?',
+        })
+      );
     } else {
       history.push({
         pathname: PATH_USER_LOGIN,
         state: { type: 'Category_Remove' },
       });
     }
+  };
+
+  // Modal
+  const handleClickYes = () => {
+    try {
+      const removePhotoId = categorySelected.id;
+      const action = removeCategory(removePhotoId);
+      dispatch(action);
+      // Close modal
+      dispatch(showModalYesNoCancel({ title: '', content: '' }));
+    } catch (error) {
+      dispatch(
+        showModalOk({ title: 'Notification', content: 'Delete failed' })
+      );
+      console.log(error);
+    }
+  };
+
+  const handleClickNo = () => {
+    dispatch(showModalYesNoCancel({ title: '', content: '' }));
   };
 
   // Render GUI
@@ -56,36 +84,41 @@ const MainPage = (props) => {
   const pathAdd = userLogin ? PATH_CATEGORIES_ADD : PATH_USER_LOGIN;
 
   return (
-    <div className='photo-main text-right'>
-      <Banner title='List category 🎉' backgroundUrl={Images.PINK_BG} />
+    <Fragment>
+      <div className='photo-main text-right'>
+        <Banner title='List category 🎉' backgroundUrl={Images.PINK_BG} />
 
-      <Container>
-        <div className='py-5'>
-          <Link
-            to={{
-              pathname: pathAdd,
-              state: { type: 'Category_Add' },
-            }}
-            id='AddNewCategory'>
-            <BsPlusSquareFill style={iconStyles} />
-          </Link>
-          <Tooltip
-            placement='left'
-            isOpen={tooltipOpen}
-            target='AddNewCategory'
-            toggle={toggle}
-            style={tooltipStyles}>
-            Add new photo
-          </Tooltip>
-        </div>
+        <Container>
+          <div className='py-5'>
+            <Link
+              to={{
+                pathname: pathAdd,
+                state: { type: 'Category_Add' },
+              }}
+              id='AddNewCategory'>
+              <BsPlusSquareFill style={iconStyles} />
+            </Link>
+            <Tooltip
+              placement='left'
+              isOpen={tooltipOpen}
+              target='AddNewCategory'
+              toggle={toggle}
+              style={tooltipStyles}>
+              Add new photo
+            </Tooltip>
+          </div>
 
-        <CategoryTable
-          categoryList={categories}
-          onCategoryEditClick={handleCategoryEditClick}
-          onCategoryRemoveClick={handleCategoryRemoveClick}
-        />
-      </Container>
-    </div>
+          <CategoryTable
+            categoryList={categories}
+            onCategoryEditClick={handleCategoryEditClick}
+            onCategoryRemoveClick={handleCategoryRemoveClick}
+          />
+        </Container>
+      </div>
+      <ModalYesNoCancel
+        onClickYes={handleClickYes}
+        onClickNo={handleClickNo}></ModalYesNoCancel>
+    </Fragment>
   );
 };
 
