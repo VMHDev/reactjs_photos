@@ -42,8 +42,8 @@ const RandomPhoto = (props) => {
 
       <div className='random-photo__photo'>
         {isSubmitting ? (
-          <div class='row align-items-center justify-content-center random-photo__spinner'>
-            <div class='justify-content-center'>
+          <div className='row align-items-center justify-content-center random-photo__spinner'>
+            <div className='justify-content-center'>
               <Spinner style={{ width: '3rem', height: '3rem' }} />
             </div>
           </div>

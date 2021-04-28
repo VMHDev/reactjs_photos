@@ -15,15 +15,23 @@ import {
   PATH_USER_LOGIN,
   PATH_CATEGORIES_ADD,
 } from 'constants/route';
+import {
+  NOTIFICATION,
+  CONFIRM,
+  DELETE_FAILED,
+  DELETE_CONFIRM,
+} from 'constants/modal';
 import Images from 'constants/images';
 
 const MainPage = (props) => {
-  const userLogin = useSelector((state) => state.users.login);
   const categories = useSelector((state) => state.categories);
   const history = useHistory();
   const dispatch = useDispatch();
 
   const [categorySelected, setCategorySelected] = useState(null);
+
+  // Get cookie
+  const userLogin = useSelector((state) => state.cookies.login);
 
   // Hander Events
   const handleCategoryEditClick = (category) => {
@@ -42,8 +50,8 @@ const MainPage = (props) => {
       setCategorySelected(category);
       dispatch(
         showModalYesNoCancel({
-          title: 'Confirm',
-          content: 'Are you sure you want to delete this item?',
+          title: CONFIRM,
+          content: DELETE_CONFIRM,
         })
       );
     } else {
@@ -63,9 +71,7 @@ const MainPage = (props) => {
       // Close modal
       dispatch(showModalYesNoCancel({ title: '', content: '' }));
     } catch (error) {
-      dispatch(
-        showModalOk({ title: 'Notification', content: 'Delete failed' })
-      );
+      dispatch(showModalOk({ title: NOTIFICATION, content: DELETE_FAILED }));
       console.log(error);
     }
   };

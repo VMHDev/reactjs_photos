@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Base64 } from 'js-base64';
 
 import { updateStatusLogin } from 'redux/userSlice';
+import { addLogin, removeLogin } from 'redux/cookieSlice';
 import { showLoading, showModalOk } from 'redux/appSlice';
 import LoginForm from 'pages/User/components/LoginForm';
 import Banner from 'components/Banner';
@@ -18,14 +19,14 @@ import {
   PATH_PHOTOS_ADD,
   PATH_CATEGORIES_ADD,
 } from 'constants/route';
-
+import { NOTIFICATION, LOGIN_FAILED } from 'constants/modal';
 // Styles
 import './styles.scss';
 
 // Main
 const LoginPage = (props) => {
   const users = useSelector((state) => state.users.data);
-  const userLogin = useSelector((state) => state.users.login);
+  const userLogin = useSelector((state) => state.cookies.login);
 
   const dispatch = useDispatch();
   const history = useHistory();
@@ -38,8 +39,8 @@ const LoginPage = (props) => {
   useEffect(() => {
     if (userLogin) {
       //Logout
-      const actionLogout = updateStatusLogin(null);
-      dispatch(actionLogout);
+      dispatch(removeLogin(null));
+      //dispatch(updateStatusLogin(false));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -55,8 +56,8 @@ const LoginPage = (props) => {
           user.password === Base64.encode(values.password)
       );
       if (userFound) {
-        const action = updateStatusLogin(userFound);
-        dispatch(action);
+        dispatch(addLogin(userFound));
+        dispatch(updateStatusLogin(true));
         await timeout(1000);
         isSuccess = true;
         // Redirect pages
@@ -85,7 +86,7 @@ const LoginPage = (props) => {
       console.log(error);
     }
     if (!isSuccess) {
-      dispatch(showModalOk({ title: 'Notification', content: 'Login failed' }));
+      dispatch(showModalOk({ title: NOTIFICATION, content: LOGIN_FAILED }));
     }
     dispatch(showLoading(false));
   };

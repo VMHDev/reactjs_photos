@@ -8,3 +8,5 @@ export const PASSWORD_TOKEN_EXPIRE = parseFloat(
 export const WEB_DOMAIN = process.env.REACT_APP_WEB_DOMAIN;
 export const WEB_PORT = process.env.REACT_APP_PORT;
 export const WEB_URL = WEB_DOMAIN + WEB_PORT;
+
+export const COOKIES_EXPIRE = process.env.REACT_APP_COOKIES_EXPIRE;

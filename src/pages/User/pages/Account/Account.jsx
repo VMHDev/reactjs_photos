@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Base64 } from 'js-base64';
 
 import { updateUser } from 'redux/userSlice';
@@ -18,7 +18,13 @@ const Account = (props) => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const userLogin = useSelector((state) => state.users.login);
+  // Get cookie
+  const userLogin = useSelector((state) => state.cookies.login);
+  useEffect(() => {
+    if (!userLogin) {
+      history.push(PATH_USER_LOGIN);
+    }
+  }, [userLogin, history]);
 
   const initialValues = {
     id: userLogin.id,

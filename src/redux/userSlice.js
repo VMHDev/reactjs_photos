@@ -5,10 +5,9 @@ const initUsers = () => {
   const users = localStorage.getItem('users');
   if (users) {
     const usersGet = JSON.parse(users);
-    return usersGet;
+    return { data: usersGet.data, isLogin: false };
   } else {
     const usersInit = {
-      login: null,
       data: [
         {
           id: uuidv4(),
@@ -19,7 +18,7 @@ const initUsers = () => {
       ],
     };
     localStorage.setItem('users', JSON.stringify(usersInit));
-    return usersInit;
+    return { data: usersInit.data, isLogin: false };
   }
 };
 
@@ -30,12 +29,7 @@ const user = createSlice({
   initialState,
   reducers: {
     updateStatusLogin: (state, action) => {
-      state.login = action.payload;
-      // Update local storage
-      let existLocal = localStorage.getItem('users');
-      let obj = existLocal ? JSON.parse(existLocal) : null;
-      obj.login = action.payload;
-      localStorage.setItem('users', JSON.stringify(obj));
+      state.isLogin = action.payload;
     },
     updateUser: (state, action) => {
       const updateUser = action.payload;
