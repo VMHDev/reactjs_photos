@@ -5,7 +5,7 @@ const initUsers = () => {
   const users = localStorage.getItem('users');
   if (users) {
     const usersGet = JSON.parse(users);
-    return usersGet;
+    return { data: usersGet.data, isLogin: false };
   } else {
     const usersInit = {
       data: [
@@ -18,7 +18,7 @@ const initUsers = () => {
       ],
     };
     localStorage.setItem('users', JSON.stringify(usersInit));
-    return usersInit;
+    return { data: usersInit.data, isLogin: false };
   }
 };
 
@@ -28,6 +28,9 @@ const user = createSlice({
   name: 'users',
   initialState,
   reducers: {
+    updateStatusLogin: (state, action) => {
+      state.isLogin = action.payload;
+    },
     updateUser: (state, action) => {
       const updateUser = action.payload;
       const userIndex = state.data.findIndex(
@@ -51,5 +54,5 @@ const user = createSlice({
 });
 
 const { reducer, actions } = user;
-export const { addUser, updateUser } = actions;
+export const { updateStatusLogin, addUser, updateUser } = actions;
 export default reducer;

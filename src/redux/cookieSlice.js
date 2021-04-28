@@ -4,6 +4,7 @@ import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 const initCookies = () => ({
   login: cookies.get('login') ? cookies.get('login') : null,
+  isTimeout: true,
 });
 const initialState = initCookies();
 
@@ -13,6 +14,7 @@ const user_cookies = createSlice({
   reducers: {
     addLogin: (state, action) => {
       state.login = action.payload;
+      state.isTimeout = false;
       // Update cookie
       cookies.set('login', JSON.stringify(action.payload), {
         path: '/',
@@ -21,6 +23,7 @@ const user_cookies = createSlice({
     },
     removeLogin: (state, action) => {
       state.login = action.payload;
+      state.isTimeout = false;
       // Update cookie
       cookies.remove('login', { path: '/' });
     },

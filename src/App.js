@@ -8,6 +8,7 @@ import {
 import { Spinner } from 'reactstrap';
 import { useDispatch } from 'react-redux';
 
+import { updateStatusLogin } from 'redux/userSlice';
 import { removeLogin } from 'redux/cookieSlice';
 import Header from 'components/Header';
 import NotFound from 'components/NotFound';
@@ -44,8 +45,8 @@ function App() {
   // Handle events
   const handleLogoutClick = () => {
     try {
-      const action = removeLogin(null);
-      dispatch(action);
+      dispatch(removeLogin(null));
+      dispatch(updateStatusLogin(false));
       return <Redirect to={PATH_HOME} />;
     } catch (error) {
       alert('Logout Fail!');

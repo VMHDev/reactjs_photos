@@ -42,8 +42,8 @@
   > https://www.npmjs.com/package/uuid
 - Random token: crypto-random-string
   > https://www.npmjs.com/package/crypto-random-string
-- Cookie: react-cookie
-  > https://www.npmjs.com/package/react-cookie  
+- Cookie: universal-cookie
+  > https://www.npmjs.com/package/universal-cookie
 - Handle direct: react-router-dom
   > https://reactrouter.com/
 - Handle state: react-redux

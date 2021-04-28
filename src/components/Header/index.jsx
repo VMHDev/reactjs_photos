@@ -34,12 +34,14 @@ const Header = (props) => {
   const history = useHistory();
 
   const userLogin = useSelector((state) => state.cookies.login);
+  const isTimeout = useSelector((state) => state.cookies.isTimeout);
+  const isLogin = useSelector((state) => state.users.isLogin);
   useEffect(() => {
-    if (!userLogin) {
+    if (!userLogin && isLogin && isTimeout) {
       console.log('Session timeout');
       history.push(PATH_USER_LOGIN);
     }
-  }, [userLogin, history]);
+  }, [userLogin, isLogin, isTimeout, history]);
 
   // Render GUI
   const [isOpen, setIsOpen] = useState(false);

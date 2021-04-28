@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { Base64 } from 'js-base64';
 
+import { updateStatusLogin } from 'redux/userSlice';
 import { addLogin, removeLogin } from 'redux/cookieSlice';
 import { showLoading, showModalOk } from 'redux/appSlice';
 import LoginForm from 'pages/User/components/LoginForm';
@@ -27,6 +28,9 @@ const LoginPage = (props) => {
   const users = useSelector((state) => state.users.data);
   const userLogin = useSelector((state) => state.cookies.login);
 
+  const test = useSelector((state) => state.users);
+  console.log('test', test);
+
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -38,8 +42,8 @@ const LoginPage = (props) => {
   useEffect(() => {
     if (userLogin) {
       //Logout
-      const action = removeLogin(null);
-      dispatch(action);
+      dispatch(removeLogin(null));
+      //dispatch(updateStatusLogin(false));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -55,8 +59,8 @@ const LoginPage = (props) => {
           user.password === Base64.encode(values.password)
       );
       if (userFound) {
-        const action = addLogin(userFound);
-        dispatch(action);
+        dispatch(addLogin(userFound));
+        dispatch(updateStatusLogin(true));
         await timeout(1000);
         isSuccess = true;
         // Redirect pages
