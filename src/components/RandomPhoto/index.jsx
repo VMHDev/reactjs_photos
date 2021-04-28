@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
-import React from 'react';
-import { Button } from 'reactstrap';
+import React, { useState } from 'react';
+import { Button, Spinner } from 'reactstrap';
+import { timeout } from 'utils/helper';
 import './styles.scss';
 
 const getRandomImageUrl = () => {
@@ -10,12 +11,20 @@ const getRandomImageUrl = () => {
 
 const RandomPhoto = (props) => {
   const { name, imageUrl, onImageUrlChange, onRandomButtonBlur } = props;
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleRandomPhotoClick = () => {
     if (onImageUrlChange) {
       const randomImageUrl = getRandomImageUrl();
       onImageUrlChange(randomImageUrl);
     }
+  };
+
+  const handleErrorImage = async () => {
+    setIsSubmitting(true);
+    handleRandomPhotoClick();
+    await timeout(1000);
+    setIsSubmitting(false);
   };
 
   return (
@@ -32,12 +41,20 @@ const RandomPhoto = (props) => {
       </div>
 
       <div className='random-photo__photo'>
-        {imageUrl && (
-          <img
-            src={imageUrl}
-            alt='Ooops ... not found. Please click random again!'
-            onError={handleRandomPhotoClick}
-          />
+        {isSubmitting ? (
+          <div className='row align-items-center justify-content-center random-photo__spinner'>
+            <div className='justify-content-center'>
+              <Spinner style={{ width: '3rem', height: '3rem' }} />
+            </div>
+          </div>
+        ) : (
+          imageUrl && (
+            <img
+              src={imageUrl}
+              alt='Ooops ... not found. Please click random again!'
+              onError={handleErrorImage}
+            />
+          )
         )}
       </div>
     </div>

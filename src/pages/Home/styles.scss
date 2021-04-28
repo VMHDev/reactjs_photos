@@ -1,27 +1,26 @@
 @media (min-width: 1920px) {
-  .hero {
+  .home {
     background-attachment: fixed;
   }
 }
 
 @media (max-width: 768px) {
-  .hero h1 {
+  .home h1 {
     font-size: 28px;
     line-height: 36px;
   }
 }
 
 @media (max-width: 768px) {
-  .hero h2 {
+  .home h2 {
     font-size: 18px;
     line-height: 24px;
     margin-bottom: 30px;
   }
 }
 
-.hero {
+.home {
   width: 100%;
-  height: 95vh;
   background: url(../../assets/images/home-bg.jpg) top center;
   background-size: cover;
   position: relative;
@@ -36,8 +35,8 @@
     right: 0;
   }
 
-  &.hero-container {
-    position: absolute;
+  &.home-container {
+    position: fixed;
     bottom: 0;
     top: 0;
     left: 0;

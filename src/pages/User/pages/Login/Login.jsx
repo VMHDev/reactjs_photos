@@ -1,12 +1,13 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { Base64 } from 'js-base64';
 
 import { updateStatusLogin } from 'redux/userSlice';
+import { addLogin, removeLogin } from 'redux/cookieSlice';
+import { showLoading, showModalOk } from 'redux/appSlice';
 import LoginForm from 'pages/User/components/LoginForm';
 import Banner from 'components/Banner';
-import Loading from 'components/Loading';
 import { timeout } from 'utils/helper';
 
 // Constants
@@ -18,15 +19,14 @@ import {
   PATH_PHOTOS_ADD,
   PATH_CATEGORIES_ADD,
 } from 'constants/route';
-
+import { NOTIFICATION, LOGIN_FAILED } from 'constants/modal';
 // Styles
 import './styles.scss';
 
 // Main
 const LoginPage = (props) => {
-  const [isShow, setIsShow] = useState(false);
   const users = useSelector((state) => state.users.data);
-  const userLogin = useSelector((state) => state.users.login);
+  const userLogin = useSelector((state) => state.cookies.login);
 
   const dispatch = useDispatch();
   const history = useHistory();
@@ -39,27 +39,27 @@ const LoginPage = (props) => {
   useEffect(() => {
     if (userLogin) {
       //Logout
-      const actionLogout = updateStatusLogin(null);
-      dispatch(actionLogout);
+      dispatch(removeLogin(null));
+      //dispatch(updateStatusLogin(false));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Handle events
   const handleSubmit = async (values) => {
-    setIsShow(true);
+    dispatch(showLoading(true));
     try {
+      var isSuccess = false;
       const userFound = users.find(
         (user) =>
           user.email === values.email &&
           user.password === Base64.encode(values.password)
       );
       if (userFound) {
-        const action = updateStatusLogin(userFound);
-        dispatch(action);
+        dispatch(addLogin(userFound));
+        dispatch(updateStatusLogin(true));
         await timeout(1000);
-        // Stop show loading
-        setIsShow(false);
+        isSuccess = true;
         // Redirect pages
         const type = props.location.state?.type;
         switch (type) {
@@ -81,27 +81,24 @@ const LoginPage = (props) => {
             history.push(PATH_HOME);
             break;
         }
-      } else {
-        setIsShow(false);
-        alert('Login Fail');
       }
     } catch (error) {
-      setIsShow(false);
-      alert('Login Fail');
       console.log(error);
     }
+    if (!isSuccess) {
+      dispatch(showModalOk({ title: NOTIFICATION, content: LOGIN_FAILED }));
+    }
+    dispatch(showLoading(false));
   };
 
   return (
     <Fragment>
-      <Loading isShow={isShow}>
-        <div className='login'>
-          <Banner title='Login 🎉' backgroundUrl={Images.BRIDGE_BG} />
-          <div className='login__form'>
-            <LoginForm initialValues={initialValues} onSubmit={handleSubmit} />
-          </div>
+      <div className='login'>
+        <Banner title='Login 🎉' backgroundUrl={Images.BRIDGE_BG} />
+        <div className='login__form'>
+          <LoginForm initialValues={initialValues} onSubmit={handleSubmit} />
         </div>
-      </Loading>
+      </div>
     </Fragment>
   );
 };

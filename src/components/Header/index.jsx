@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import {
@@ -30,8 +31,17 @@ import './styles.scss';
 
 const Header = (props) => {
   const { onLogoutClick } = props;
+  const history = useHistory();
 
-  const userLogin = useSelector((state) => state.users.login);
+  const userLogin = useSelector((state) => state.cookies.login);
+  const isTimeout = useSelector((state) => state.cookies.isTimeout);
+  const isLogin = useSelector((state) => state.users.isLogin);
+  useEffect(() => {
+    if (!userLogin && isLogin && isTimeout) {
+      console.log('Session timeout');
+      history.push(PATH_USER_LOGIN);
+    }
+  }, [userLogin, isLogin, isTimeout, history]);
 
   // Render GUI
   const [isOpen, setIsOpen] = useState(false);
@@ -39,11 +49,13 @@ const Header = (props) => {
 
   return (
     <div>
-      <Navbar color='light' light expand='md'>
+      <Navbar color='light' light expand='md' className='header'>
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
-          <Nav className='mr-auto' navbar>
-            <NavbarBrand href={PATH_HOME}>PHOTO APPS</NavbarBrand>
+          <Nav className='mr-auto header__ul' navbar>
+            <NavbarBrand href={PATH_HOME} className='header__title'>
+              PHOTO APPS
+            </NavbarBrand>
             <NavItem>
               <NavLink href={PATH_PHOTOS}>Photo</NavLink>
             </NavItem>
@@ -59,12 +71,12 @@ const Header = (props) => {
             </DropdownToggle>
             <DropdownMenu right>
               <DropdownItem>
-                <Link to={PATH_USER_ACCOUNT} className='link'>
+                <Link to={PATH_USER_ACCOUNT} className='header__link'>
                   Account
                 </Link>
               </DropdownItem>
               <DropdownItem>
-                <Link to='' onClick={onLogoutClick} className='link'>
+                <Link to='' onClick={onLogoutClick} className='header__link'>
                   Logout
                 </Link>
               </DropdownItem>
