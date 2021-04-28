@@ -19,7 +19,7 @@ import {
   PATH_PHOTOS_ADD,
   PATH_CATEGORIES_ADD,
 } from 'constants/route';
-
+import { NOTIFICATION, LOGIN_FAILED } from 'constants/modal';
 // Styles
 import './styles.scss';
 
@@ -27,9 +27,6 @@ import './styles.scss';
 const LoginPage = (props) => {
   const users = useSelector((state) => state.users.data);
   const userLogin = useSelector((state) => state.cookies.login);
-
-  const test = useSelector((state) => state.users);
-  console.log('test', test);
 
   const dispatch = useDispatch();
   const history = useHistory();
@@ -89,7 +86,7 @@ const LoginPage = (props) => {
       console.log(error);
     }
     if (!isSuccess) {
-      dispatch(showModalOk({ title: 'Notification', content: 'Login failed' }));
+      dispatch(showModalOk({ title: NOTIFICATION, content: LOGIN_FAILED }));
     }
     dispatch(showLoading(false));
   };

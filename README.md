@@ -48,3 +48,19 @@
   > https://reactrouter.com/
 - Handle state: react-redux
   > https://react-redux.js.org/
+
+# Example .env
+```
+# PORT = REACT_APP_PORT
+PORT=4004
+REACT_APP_PORT=4004  
+
+REACT_APP_WEB_DOMAIN='http://localhost/'
+
+# REACT_APP_PASSWORD_TOKEN_EXPIRE unit is minute
+REACT_APP_PASSWORD_TOKEN_EXPIRE=1
+
+REACT_APP_PASSWORD_RESET_TOKEN_LENGTH=10
+
+REACT_APP_COOKIES_EXPIRE=3600
+```

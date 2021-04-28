@@ -15,6 +15,12 @@ import {
   PATH_USER_LOGIN,
   PATH_CATEGORIES_ADD,
 } from 'constants/route';
+import {
+  NOTIFICATION,
+  CONFIRM,
+  DELETE_FAILED,
+  DELETE_CONFIRM,
+} from 'constants/modal';
 import Images from 'constants/images';
 
 const MainPage = (props) => {
@@ -44,8 +50,8 @@ const MainPage = (props) => {
       setCategorySelected(category);
       dispatch(
         showModalYesNoCancel({
-          title: 'Confirm',
-          content: 'Are you sure you want to delete this item?',
+          title: CONFIRM,
+          content: DELETE_CONFIRM,
         })
       );
     } else {
@@ -65,9 +71,7 @@ const MainPage = (props) => {
       // Close modal
       dispatch(showModalYesNoCancel({ title: '', content: '' }));
     } catch (error) {
-      dispatch(
-        showModalOk({ title: 'Notification', content: 'Delete failed' })
-      );
+      dispatch(showModalOk({ title: NOTIFICATION, content: DELETE_FAILED }));
       console.log(error);
     }
   };

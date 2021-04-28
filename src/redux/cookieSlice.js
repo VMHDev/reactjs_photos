@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import Cookies from 'universal-cookie';
+import { COOKIES_EXPIRE } from 'constants/system';
 
 const cookies = new Cookies();
 const initCookies = () => ({
@@ -18,7 +19,7 @@ const user_cookies = createSlice({
       // Update cookie
       cookies.set('login', JSON.stringify(action.payload), {
         path: '/',
-        maxAge: 3600,
+        maxAge: COOKIES_EXPIRE,
       });
     },
     removeLogin: (state, action) => {
